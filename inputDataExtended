@@ -1,0 +1,9 @@
+usr.lib
+etc.default.useradd
+var.log.123
+usr.share.pacman.PKGBUILD
+usr.bin.rustc
+usr.bin.cargo
+var.log.something
+etc.X11
+usr.share.pacman.binaries
