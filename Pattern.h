@@ -134,6 +134,10 @@ std::string determine_pattern(const std::string &text, int windowSize) {
   std::default_random_engine e1(rd());
   std::uniform_int_distribution<int> uniform_dist(0, stringLength-1);
   auto pos = uniform_dist(e1);
+
+  std::string lastPattern(windowSize,text[text.size()-1]);
+  std::string start(windowSize,text[0]);
+//  start = lastPattern+start;
 //  std::string result = std::string(windowSize, text[0]);
 //  auto start = "aaaababb";
   for (int repeat = 0; repeat < stringLength; ++repeat)
@@ -144,21 +148,21 @@ std::string determine_pattern(const std::string &text, int windowSize) {
       iter++ ;
     }
     std::string s = *iter;
-//    auto result = start + s;
-    auto result =  s;
+//    auto result = start ;
+    auto result =  start + s;
     auto perm = allPossiblePermutation.begin();
     while (!allPossiblePermutation.empty() &&
            perm != allPossiblePermutation.end() ) {
       const auto missingCharacters = stringLength - result.length();
       if (missingCharacters >= windowSize) {
         auto t = *perm;
-        auto tempStr = result + t;
+        auto tempStr = result + t ;
         auto [b, perms] = isRingUnique(tempStr, windowSize);
         if (b) {
           result = tempStr;
-          for (auto p : perms) {
-            allPossiblePermutation.erase(p);
-          }
+//          for (auto p : perms) {
+//            allPossiblePermutation.erase(p);
+//          }
           perm = allPossiblePermutation.begin();
         } else {
           perm++;
