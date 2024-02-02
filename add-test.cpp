@@ -140,6 +140,11 @@ TEST_CASE("Is ring unique abbbbababbaaaaba window size 4") {
   auto [b, permutations] = isRingUnique("abbbbababbaaaaba", 4);
   REQUIRE(true == b);
 }
+TEST_CASE("Is ring unique aaaababbbbaabbab window size 4") {
+  auto [b, permutations] = isRingUnique("aaaababbbbaabbab", 4);
+  REQUIRE(true == b);
+}
+
 TEST_CASE("Is ring unique aa window size 2") {
   auto [b, permutations] = isRingUnique("aa", 2);
   REQUIRE(true == b);
@@ -191,10 +196,11 @@ TEST_CASE("determine_pattern  ab 4") {
   const auto expected1 = "aaaababbbbabaabb";
   const auto expected2 = "aaaabbabaababbbb";
   const auto expected3 = "abbbbababbaaaaba";
+  const auto expected4 = "aaaababbbbaabbab";
 
   const auto result = determine_pattern("ab", 4);
-  auto match =
-      (expected1 == result || expected2 == result || expected3 == result);
+  auto match = (expected1 == result || expected2 == result ||
+                expected3 == result || expected4 == result);
 
   REQUIRE(true == match);
 }
