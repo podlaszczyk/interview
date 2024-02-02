@@ -1,4 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_all.hpp>
 
 #include "Pattern.h"
 #include <unordered_set>
@@ -123,6 +124,10 @@ TEST_CASE("Is ring unique aabbac window size 2") {
   auto [b, permutations] = isRingUnique("aabbac", 2);
   REQUIRE(true == b);
 }
+TEST_CASE("Is ring unique aabcbbacc window size 2") {
+  auto [b, permutations] = isRingUnique("aabcbbacc", 2);
+  REQUIRE(true == b);
+}
 
 TEST_CASE("Is ring unique aabbaccc window size 2") {
   auto [b, permutations] = isRingUnique("aabbaccc", 2);
@@ -146,6 +151,10 @@ TEST_CASE("Is ring unique aaaababbbbaabbab window size 4") {
 }
 TEST_CASE("Is ring unique aaaababaabbbbabb window size 4") {
   auto [b, permutations] = isRingUnique("aaaababaabbbbabb", 4);
+  REQUIRE(true == b);
+}
+TEST_CASE("Is ring unique aaaabbababbbbaab window size 4") {
+  auto [b, permutations] = isRingUnique("aaaabbababbbbaab", 4);
   REQUIRE(true == b);
 }
 
@@ -185,15 +194,30 @@ TEST_CASE("Is ring unique "
                    4);
   REQUIRE(true == b);
 }
+TEST_CASE("Is ring unique "
+          "aaaaccccbccbbcccabccaabbabbbacbcbcacaccbabaccacbbaacaacbacabbcababcb"
+          "bbcbaabcaaab"
+          " window size 4") {
+  auto [b, permutations] =
+      isRingUnique("aaaaccccbccbbcccabccaabbabbbacbcbcacaccbabaccacbbaacaacbaca"
+                   "bbcababcbbbcbaabcaaab",
+                   4);
+  REQUIRE(true == b);
+}
 
 TEST_CASE("determine_pattern  abc 2") {
   const auto expected1 = "aabacbbcc";
   const auto expected2 = "ccaacbabb";
   const auto expected3 = "aaccbcabb";
-  const auto result = determine_pattern("abc", 2);
+  const auto expected4 = "aabcbbacc";
+  const auto expected5 = "aacbccabb";
+  const auto expected6 = "aabbacbcc";
+  const auto expected7 = "aaccabcbb";
+  std::vector<std::string> some_vec{expected1, expected2, expected3, expected4,
+                                    expected5, expected6, expected7};
 
-  auto match = (expected1 == result || expected2 == result || expected3 == result);
-  REQUIRE(true == match);
+  const auto result = determine_pattern("abc", 2);
+  REQUIRE_THAT(some_vec, Catch::Matchers::Contains(result));
 }
 
 TEST_CASE("determine_pattern  ab 3") {
@@ -202,13 +226,10 @@ TEST_CASE("determine_pattern  ab 3") {
   const auto expected3 = "aaabbbab";
   const auto expected4 = "aabbbaba";
   const auto expected5 = "bbabaaab";
-
+  std::vector<std::string> some_vec{expected1, expected2, expected3, expected4,
+                                    expected5};
   const auto result = determine_pattern("ab", 3);
-  auto match =
-      (expected1 == result || expected2 == result || expected3 == result ||
-       expected4 == result || expected5 == result);
-
-  REQUIRE(true == match);
+  REQUIRE_THAT(some_vec, Catch::Matchers::Contains(result));
 }
 
 TEST_CASE("determine_pattern  ab 4") {
@@ -217,12 +238,11 @@ TEST_CASE("determine_pattern  ab 4") {
   const auto expected3 = "abbbbababbaaaaba";
   const auto expected4 = "aaaababbbbaabbab";
   const auto expected5 = "aaaababaabbbbabb";
-
+  const auto expected6 = "aaaabbababbbbaab";
+  std::vector<std::string> some_vec{expected1, expected2, expected3,
+                                    expected4, expected5, expected6};
   const auto result = determine_pattern("ab", 4);
-  auto match = (expected1 == result || expected2 == result ||
-                expected3 == result || expected4 == result || expected5 == result);
-
-  REQUIRE(true == match);
+  REQUIRE_THAT(some_vec, Catch::Matchers::Contains(result));
 }
 
 TEST_CASE("determine_pattern abc 4") {

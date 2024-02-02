@@ -62,13 +62,10 @@ generatePermutationsForWindow(const std::string &text, int windowLength) {
       std::swap(basics[i][swapIndex], basics[i + 1][swapIndex]);
     }
     for (const auto &b : basics) {
-      //      std::cout << b << "\n";
       auto newPermutations = generatePermutations(b);
       permutations.insert(newPermutations.begin(), newPermutations.end());
     }
-    //    std::cout<< "\n";
   }
-  //  std::cout << "size " << permutations.size();
   return permutations;
 }
 
@@ -91,12 +88,7 @@ isRingUnique(const std::string &ring, int frame) {
       return {false, {}};
     }
   }
-  //
-  //
-  //  for(auto p : permutations)
-  //  {
-  //    std::cout <<p <<"\n";
-  //  }
+
   return {true, permutations};
 }
 
@@ -111,12 +103,7 @@ isStrUnique(const std::string &str, int frame) {
       return {false, {}};
     }
   }
-  //
-  //
-  //  for(auto p : permutations)
-  //  {
-  //    std::cout <<p <<"\n";
-  //  }
+
   return {true, permutations};
 }
 
@@ -126,43 +113,43 @@ std::string determine_pattern(const std::string &text, int windowSize) {
       generatePermutationsForWindow(text, windowSize);
   auto allPossiblePermutation = nonModifiableAllPossiblePermutations;
 
-
   std::random_device rd;
-  std::mt19937 g(rd());
 
   // Choose a random mean between 0 and size
   std::default_random_engine e1(rd());
-  std::uniform_int_distribution<int> uniform_dist(0, stringLength-1);
+  std::uniform_int_distribution<int> uniform_dist(0, text.size() - 1);
   auto pos = uniform_dist(e1);
 
-  std::string lastPattern(windowSize,text[text.size()-1]);
-  std::string start(windowSize,text[0]);
-//  start = lastPattern+start;
-//  std::string result = std::string(windowSize, text[0]);
-//  auto start = "aaaababb";
-  for (int repeat = 0; repeat < stringLength; ++repeat)
-  {
+  std::string lastPattern(windowSize, text[text.size() - 1]);
+  std::string start(windowSize, text[0]);
+
+  std::string result;
+  int repeat = 0;
+  int totalCounter = 0;
+  while (result.size() != stringLength) {
     auto iter = allPossiblePermutation.begin();
-    for(int count = 0; count < repeat; ++count)
-    {
-      iter++ ;
+    for (int count = 0; count < repeat; ++count) {
+      iter++;
     }
     std::string s = *iter;
-//    auto result = start ;
-    auto result =  start + s;
+    //    auto result = start ;
+    result = start + s;
     auto perm = allPossiblePermutation.begin();
     while (!allPossiblePermutation.empty() &&
-           perm != allPossiblePermutation.end() ) {
+           perm != allPossiblePermutation.end()) {
       const auto missingCharacters = stringLength - result.length();
       if (missingCharacters >= windowSize) {
         auto t = *perm;
-        auto tempStr = result + t ;
+        e1 = std::default_random_engine(rd());
+        pos = uniform_dist(e1);
+        t[0] = text[pos];
+        auto tempStr = result + t;
         auto [b, perms] = isRingUnique(tempStr, windowSize);
         if (b) {
           result = tempStr;
-//          for (auto p : perms) {
-//            allPossiblePermutation.erase(p);
-//          }
+          for (const auto& p : perms) {
+            allPossiblePermutation.erase(p);
+          }
           perm = allPossiblePermutation.begin();
         } else {
           perm++;
@@ -182,18 +169,20 @@ std::string determine_pattern(const std::string &text, int windowSize) {
       }
     }
     allPossiblePermutation = nonModifiableAllPossiblePermutations;
-    if(result.size() == stringLength)
-    {
-      return  result;
+    if (result.size() == stringLength) {
+      return result;
+    } else {
+
+      std::cout << result << " size: " << result.size() << "\n";
     }
-    else {
-      std::cout << result << " size: "<<result.size() <<"\n";
+    ++repeat;
+    if (repeat == stringLength) {
+      repeat = 0;
     }
-//    return result;
+    if (totalCounter == 50000) {
+      break;
+    }
+    totalCounter++;
   }
 
-  //  if (result.size() != stringLength) {
-  //    return {};
-  //  }
-//  return result;
 }
