@@ -81,19 +81,29 @@ TEST_CASE("Is str unique aaabba window size 3") {
   auto [b, permutations] = isStrUnique("aaabba", 3);
   REQUIRE(true == b);
 }
-TEST_CASE("Is str unique aaaacccbacaabcccaacaccbcabbbcbccacababbccbbcacbabaacbbbbaabbaccabcaaabacbcbba window size 4") {
-  auto [b, permutations] = isStrUnique("aaaacccbacaabcccaacaccbcabbbcbccacababbccbbcacbabaacbbbbaabbaccabcaaabacbcbba", 4);
+TEST_CASE("Is str unique "
+          "aaaacccbacaabcccaacaccbcabbbcbccacababbccbbcacbabaacbbbbaabbaccabcaa"
+          "abacbcbba window size 4") {
+  auto [b, permutations] = isStrUnique("aaaacccbacaabcccaacaccbcabbbcbccacababb"
+                                       "ccbbcacbabaacbbbbaabbaccabcaaabacbcbba",
+                                       4);
   REQUIRE(true == b);
 }
-TEST_CASE("Is str unique aaaacccbacaabcccaacaccbcabbbcbccacababbccbbcacbabaacbbbbaabbaccabcaaabacbcbbacccc window size 4") {
-  auto [b, permutations] = isStrUnique("aaaacccbacaabcccaacaccbcabbbcbccacababbccbbcacbabaacbbbbaabbaccabcaaabacbcbbacccc", 4);
+TEST_CASE("Is str unique "
+          "aaaacccbacaabcccaacaccbcabbbcbccacababbccbbcacbabaacbbbbaabbaccabcaa"
+          "abacbcbbacccc window size 4") {
+  auto [b, permutations] =
+      isStrUnique("aaaacccbacaabcccaacaccbcabbbcbccacababbccbbcacbabaacbbbbaabb"
+                  "accabcaaabacbcbbacccc",
+                  4);
   REQUIRE(false == b);
 }
-TEST_CASE("Is str unique aaaabaacaabbaabcaacbabcbaccbbbccacccbccbcccc window size 4") {
-  auto [b, permutations] = isStrUnique("aaaabaacaabbaabcaacbabcbaccbbbccacccbccbcccc", 4);
+TEST_CASE("Is str unique aaaabaacaabbaabcaacbabcbaccbbbccacccbccbcccc window "
+          "size 4") {
+  auto [b, permutations] =
+      isStrUnique("aaaabaacaabbaabcaacbabcbaccbbbccacccbccbcccc", 4);
   REQUIRE(false == b);
 }
-
 
 TEST_CASE("Is ring unique aabbab window size 2") {
   auto [b, permutations] = isRingUnique("aabbab", 2);
@@ -126,7 +136,10 @@ TEST_CASE("Is ring unique aaaabbabaababbbb window size 4") {
   auto [b, permutations] = isRingUnique("aaaabbabaababbbb", 4);
   REQUIRE(true == b);
 }
-
+TEST_CASE("Is ring unique abbbbababbaaaaba window size 4") {
+  auto [b, permutations] = isRingUnique("abbbbababbaaaaba", 4);
+  REQUIRE(true == b);
+}
 TEST_CASE("Is ring unique aa window size 2") {
   auto [b, permutations] = isRingUnique("aa", 2);
   REQUIRE(true == b);
@@ -145,29 +158,38 @@ TEST_CASE("Is ring unique aaabba window size 3") {
   auto [b, permutations] = isRingUnique("aaabba", 3);
   REQUIRE(false == b);
 }
+TEST_CASE("Is ring unique aabbbaba window size 3") {
+  auto [b, permutations] = isRingUnique("aabbbaba", 3);
+  REQUIRE(true == b);
+}
 
 TEST_CASE("determine_pattern  ab 3") {
   const auto expected1 = "aaababbb";
   const auto expected2 = "bbbabaaa";
   const auto expected3 = "aaabbbab";
+  const auto expected4 = "aabbbaba";
 
   const auto result = determine_pattern("ab", 3);
-  auto match = (expected1 == result || expected2 == result || expected3 == result);
+  auto match = (expected1 == result || expected2 == result ||
+                expected3 == result || expected4 == result);
 
   REQUIRE(true == match);
 }
 
 TEST_CASE("determine_pattern  ab 4") {
-  const auto expected = "aaaababbbbabaabb";
-  const auto result = determine_pattern("ab", 4);
+  const auto expected1 = "aaaababbbbabaabb";
+  const auto expected2 = "aaaabbabaababbbb";
+  const auto expected3 = "abbbbababbaaaaba";
 
-  REQUIRE(expected == result);
+  const auto result = determine_pattern("ab", 4);
+  auto match =
+      (expected1 == result || expected2 == result || expected3 == result);
+
+  REQUIRE(true == match);
 }
 
-TEST_CASE("determine_pattern abc 4")
-{
+TEST_CASE("determine_pattern abc 4") {
   const auto result = determine_pattern("abc", 4);
   std::cout << "res.size " << result.size();
   REQUIRE("" == result);
-
 }

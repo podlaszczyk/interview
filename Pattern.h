@@ -67,7 +67,7 @@ generatePermutationsForWindow(const std::string &text, int windowLength) {
     }
     //    std::cout<< "\n";
   }
-//  std::cout << "size " << permutations.size();
+  //  std::cout << "size " << permutations.size();
   return permutations;
 }
 
@@ -100,11 +100,10 @@ isRingUnique(const std::string &ring, int frame) {
 }
 
 std::pair<bool, std::unordered_set<std::string>>
-isStrUnique(const std::string &str, int frame)
-{
+isStrUnique(const std::string &str, int frame) {
   std::unordered_set<std::string> permutations;
 
-  for (size_t i = 0; i < str.size()-frame+1; ++i) {
+  for (size_t i = 0; i < str.size() - frame + 1; ++i) {
     std::string permutation = std::string(str, i, frame);
 
     if (auto [p, success] = permutations.insert(permutation); !success) {
@@ -122,61 +121,66 @@ isStrUnique(const std::string &str, int frame)
 
 std::string determine_pattern(const std::string &text, int windowSize) {
   int stringLength = std::pow(text.size(), windowSize);
-  auto allPossiblePermutation = generatePermutationsForWindow(text, windowSize);
+  const auto nonModifiableAllPossiblePermutations =
+      generatePermutationsForWindow(text, windowSize);
+  auto allPossiblePermutation = nonModifiableAllPossiblePermutations;
 
-//  std::vector<std::string> allPossiblePermutation;
-//  for(auto chars : allPossiblePermutationHash)
-//  {
-//    allPossiblePermutation.push_back(chars);
-//  }
-//  std::sort(allPossiblePermutation.begin(), allPossiblePermutation.end());
+//  std::string result = std::string(windowSize, text[0]);
 
-  // build initial text from concatenated patterns with the same characters
-  // e.g "aaa" + "bbb"
-
-  std::string result =  std::string(windowSize, text[0]);
-//  auto [b, perms] = isRingUnique(result, windowSize);
-//  for(const auto& p : perms)
-//  {
-//    allPossiblePermutation.erase(p);
-//  }
-
-
-  auto perm = allPossiblePermutation.begin();
-  while (!allPossiblePermutation.empty() &&
-         perm != allPossiblePermutation.end()) {
-    // most cases add windowpermutation
-    const auto missingCharacters = stringLength - result.length();
-    if (missingCharacters >= windowSize) {
-      auto t = *perm;
-      auto tempStr = result + t;
-      auto [b, perms] = isRingUnique(tempStr, windowSize);
-//      auto [b, perms] = isStrUnique(tempStr, windowSize);
-      if (b) {
-        result = tempStr;
-        for (auto p : perms) {
-          allPossiblePermutation.erase(p);
-        }
-        perm = allPossiblePermutation.begin();
-      } else {
-        perm++;
-      }
-    } else {
-      auto ss = result.size();
-      // add last missing characters part of existing possible permutations
-      for (const auto &perm : allPossiblePermutation) {
-        std::string tempStr = result + std::string(perm, 0, missingCharacters);
+  for (int repeat = 0; repeat < stringLength; ++repeat)
+  {
+    auto iter = allPossiblePermutation.begin();
+    for(int count = 0; count < repeat; ++count)
+    {
+      iter++ ;
+    }
+    std::string s = *iter;
+    auto result = s;
+    auto perm = allPossiblePermutation.begin();
+    while (!allPossiblePermutation.empty() &&
+           perm != allPossiblePermutation.end() ) {
+      // most cases add windowpermutation
+      const auto missingCharacters = stringLength - result.length();
+      if (missingCharacters >= windowSize) {
+        auto t = *perm;
+        auto tempStr = result + t;
         auto [b, perms] = isRingUnique(tempStr, windowSize);
-//        auto [b, perms] = isStrUnique(tempStr, windowSize);
+        //      auto [b, perms] = isStrUnique(tempStr, windowSize);
         if (b) {
           result = tempStr;
-          return result;
+          for (auto p : perms) {
+            allPossiblePermutation.erase(p);
+          }
+          perm = allPossiblePermutation.begin();
+        } else {
+          perm++;
         }
+      } else {
+        auto ss = result.size();
+        // add last missing characters part of existing possible permutations
+        for (const auto &perm : allPossiblePermutation) {
+          std::string tempStr =
+              result + std::string(perm, 0, missingCharacters);
+          auto [b, perms] = isRingUnique(tempStr, windowSize);
+          //        auto [b, perms] = isStrUnique(tempStr, windowSize);
+          if (b) {
+            result = tempStr;
+            return result;
+          }
+        }
+        perm = allPossiblePermutation.end();
       }
     }
+    allPossiblePermutation = nonModifiableAllPossiblePermutations;
+    if(result.size() == stringLength)
+    {
+      return  result;
+    }
+//    return result;
   }
-//  if (result.size() != stringLength) {
-//    return {};
-//  }
-  return result;
+
+  //  if (result.size() != stringLength) {
+  //    return {};
+  //  }
+//  return result;
 }
