@@ -126,7 +126,7 @@ std::string determine_pattern(const std::string &text, int windowSize) {
   auto allPossiblePermutation = nonModifiableAllPossiblePermutations;
 
 //  std::string result = std::string(windowSize, text[0]);
-
+  auto start = "aaaabaaacaabbaabcaacbaaccababacabbbabbcabcbabccacacbbacbcaccbacccbbbbcbbccb";
   for (int repeat = 0; repeat < stringLength; ++repeat)
   {
     auto iter = allPossiblePermutation.begin();
@@ -135,7 +135,7 @@ std::string determine_pattern(const std::string &text, int windowSize) {
       iter++ ;
     }
     std::string s = *iter;
-    auto result = s;
+    auto result = start + s;
     auto perm = allPossiblePermutation.begin();
     while (!allPossiblePermutation.empty() &&
            perm != allPossiblePermutation.end() ) {
@@ -148,9 +148,9 @@ std::string determine_pattern(const std::string &text, int windowSize) {
         //      auto [b, perms] = isStrUnique(tempStr, windowSize);
         if (b) {
           result = tempStr;
-          for (auto p : perms) {
-            allPossiblePermutation.erase(p);
-          }
+//          for (auto p : perms) {
+//            allPossiblePermutation.erase(p);
+//          }
           perm = allPossiblePermutation.begin();
         } else {
           perm++;
@@ -175,6 +175,9 @@ std::string determine_pattern(const std::string &text, int windowSize) {
     if(result.size() == stringLength)
     {
       return  result;
+    }
+    else {
+      std::cout << result << " size: "<<result.size() <<"\n";
     }
 //    return result;
   }

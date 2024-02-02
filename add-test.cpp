@@ -162,6 +162,15 @@ TEST_CASE("Is ring unique aabbbaba window size 3") {
   auto [b, permutations] = isRingUnique("aabbbaba", 3);
   REQUIRE(true == b);
 }
+TEST_CASE("Is ring unique "
+          "aaaabaaacaabbaabcaacbaaccababacabbbabbcabcbabccacacbbacbcaccbacccbbb"
+          "bcbbccbcbcccc window size 4") {
+  auto [b, permutations] =
+      isRingUnique("aaaabaaacaabbaabcaacbaaccababacabbbabbcabcbabccacacbbacbcac"
+                   "cbacccbbbbcbbccbcbcccc",
+                   4);
+  REQUIRE(true == b);
+}
 
 TEST_CASE("determine_pattern  ab 3") {
   const auto expected1 = "aaababbb";
@@ -191,5 +200,8 @@ TEST_CASE("determine_pattern  ab 4") {
 TEST_CASE("determine_pattern abc 4") {
   const auto result = determine_pattern("abc", 4);
   std::cout << "res.size " << result.size();
-  REQUIRE("" == result);
+  const std::string expected =
+      "aaaabaaacaabbaabcaacbaaccababacabbbabbcabcbabccacacbbacbcac"
+      "cbacccbbbbcbbccbcbcccc";
+  REQUIRE(expected == result);
 }
