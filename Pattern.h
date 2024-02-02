@@ -116,12 +116,26 @@ std::string determine_pattern(const std::string &text, int windowSize) {
   std::random_device rd;
 
   // Choose a random mean between 0 and size
+  std::default_random_engine e(rd());
   std::default_random_engine e1(rd());
+  std::default_random_engine e2(rd());
+  std::default_random_engine e3(rd());
   std::uniform_int_distribution<int> uniform_dist(0, text.size() - 1);
-  auto pos = uniform_dist(e1);
+  auto pos = uniform_dist(e);
+  auto pos1 = uniform_dist(e1);
+  auto pos2 = uniform_dist(e2);
+  auto pos3 = uniform_dist(e3);
 
   std::string lastPattern(windowSize, text[text.size() - 1]);
   std::string start(windowSize, text[0]);
+//  start = "aaaabaaa";
+  int group10 = 0;
+  int group20 = 0;
+  int group30 = 0;
+  int group40 = 0;
+  int group50 = 0;
+  int group60 = 0;
+  int group70 = 0;
 
   std::string result;
   int repeat = 0;
@@ -140,16 +154,26 @@ std::string determine_pattern(const std::string &text, int windowSize) {
       const auto missingCharacters = stringLength - result.length();
       if (missingCharacters >= windowSize) {
         auto t = *perm;
+        e = std::default_random_engine(rd());
         e1 = std::default_random_engine(rd());
-        pos = uniform_dist(e1);
+        e2 = std::default_random_engine(rd());
+        e3 = std::default_random_engine(rd());
+        pos = uniform_dist(e);
+        pos1 = uniform_dist(e1);
+        pos2 = uniform_dist(e2);
+        pos3 = uniform_dist(e3);
         t[0] = text[pos];
+        t[1] = text[pos1];
+        t[2] = text[pos2];
+        t[3] = text[pos3];
         auto tempStr = result + t;
         auto [b, perms] = isRingUnique(tempStr, windowSize);
         if (b) {
           result = tempStr;
-          for (const auto& p : perms) {
-            allPossiblePermutation.erase(p);
-          }
+          allPossiblePermutation.erase(t);
+//          for (const auto &p : perms) {
+//            allPossiblePermutation.erase(p);
+//          }
           perm = allPossiblePermutation.begin();
         } else {
           perm++;
@@ -172,7 +196,22 @@ std::string determine_pattern(const std::string &text, int windowSize) {
     if (result.size() == stringLength) {
       return result;
     } else {
-
+      auto rSize = result.size();
+      if (10 < rSize && rSize < 20) {
+        group10++;
+      } else if (20 < rSize && rSize < 30) {
+        group20++;
+      } else if (30 < rSize && rSize < 40) {
+        group30++;
+      } else if (40 < rSize && rSize < 50) {
+        group40++;
+      } else if (50 < rSize && rSize < 60) {
+        group50++;
+      } else if (60 < rSize && rSize < 70) {
+        group60++;
+      } else if (70 < rSize && rSize < 80) {
+        group70++;
+      }
       std::cout << result << " size: " << result.size() << "\n";
     }
     ++repeat;
@@ -180,9 +219,16 @@ std::string determine_pattern(const std::string &text, int windowSize) {
       repeat = 0;
     }
     if (totalCounter == 50000) {
+
+      std::cout << "10+: " << group10 << "\n";
+      std::cout << "20+: " << group20 << "\n";
+      std::cout << "30+: " << group30 << "\n";
+      std::cout << "40+: " << group40 << "\n";
+      std::cout << "50+: " << group50 << "\n";
+      std::cout << "60+: " << group60 << "\n";
+      std::cout << "70+: " << group70 << "\n";
       break;
     }
     totalCounter++;
   }
-
 }
