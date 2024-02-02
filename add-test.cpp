@@ -4,21 +4,21 @@
 #include "Pattern.h"
 #include <unordered_set>
 
-std::unordered_set<std::string> ab2 = {"aa", "ab", "ba", "bb"};
-std::unordered_set<std::string> ab3 = {"aaa", "aba", "aab", "abb",
-                                       "baa", "bba", "bab", "bbb"};
-std::unordered_set<std::string> abc2 = {"aa", "ab", "ba", "ac", "ca",
-                                        "cb", "cc", "bc", "bb"};
-std::unordered_set<std::string> ab4 = {
-    "aaaa", "bbbb", "aaab", "aaba", "abaa", "baaa", "bbba", "bbab",
-    "babb", "abbb", "aabb", "abba", "bbaa", "baab", "abab", "baba"};
+std::set<std::string> ab2 = {"aa", "ab", "ba", "bb"};
+std::set<std::string> ab3 = {"aaa", "aba", "aab", "abb",
+                             "baa", "bba", "bab", "bbb"};
+std::set<std::string> abc2 = {"aa", "ab", "ba", "ac", "ca",
+                              "cb", "cc", "bc", "bb"};
+std::set<std::string> ab4 = {"aaaa", "bbbb", "aaab", "aaba", "abaa", "baaa",
+                             "bbba", "bbab", "babb", "abbb", "aabb", "abba",
+                             "bbaa", "baab", "abab", "baba"};
 
-std::unordered_set<std::string> abc3 = {
-    "aaa", "baa", "caa", "aba", "bba", "cba", "aab", "bab", "cab",
-    "abb", "bbb", "cbb", "abc", "bbc", "cbc", "aca", "bca", "cca",
-    "aac", "bac", "cac", "acb", "bcb", "ccb", "acc", "bcc", "ccc"};
+std::set<std::string> abc3 = {"aaa", "baa", "caa", "aba", "bba", "cba", "aab",
+                              "bab", "cab", "abb", "bbb", "cbb", "abc", "bbc",
+                              "cbc", "aca", "bca", "cca", "aac", "bac", "cac",
+                              "acb", "bcb", "ccb", "acc", "bcc", "ccc"};
 
-std::unordered_set<std::string> abc4 = {
+std::set<std::string> abc4 = {
     "aaaa", "baaa", "caaa", "abaa", "bbaa", "cbaa", "aaba", "baba", "caba",
     "aaab", "baab", "caab", "acaa", "bcaa", "ccaa", "aaca", "baca", "caca",
     "aaac", "baac", "caac", "abba", "bbba", "cbba", "abab", "bbab", "cbab",
@@ -213,8 +213,12 @@ TEST_CASE("determine_pattern  abc 2") {
   const auto expected5 = "aacbccabb";
   const auto expected6 = "aabbacbcc";
   const auto expected7 = "aaccabcbb";
+  const auto expected8 = "bbacaabcc";
+  const auto expected9 = "bbcaccbaa";
+  const auto expected10 = "ccaabacbb";
   std::vector<std::string> some_vec{expected1, expected2, expected3, expected4,
-                                    expected5, expected6, expected7};
+                                    expected5, expected6, expected7, expected8,
+                                    expected9, expected10};
 
   const auto result = determine_pattern("abc", 2);
   REQUIRE_THAT(some_vec, Catch::Matchers::Contains(result));
@@ -226,8 +230,9 @@ TEST_CASE("determine_pattern  ab 3") {
   const auto expected3 = "aaabbbab";
   const auto expected4 = "aabbbaba";
   const auto expected5 = "bbabaaab";
-  std::vector<std::string> some_vec{expected1, expected2, expected3, expected4,
-                                    expected5};
+  const auto expected6 = "bbbaaaba";
+  std::vector<std::string> some_vec{expected1, expected2, expected3,
+                                    expected4, expected5, expected6};
   const auto result = determine_pattern("ab", 3);
   REQUIRE_THAT(some_vec, Catch::Matchers::Contains(result));
 }
@@ -239,8 +244,12 @@ TEST_CASE("determine_pattern  ab 4") {
   const auto expected4 = "aaaababbbbaabbab";
   const auto expected5 = "aaaababaabbbbabb";
   const auto expected6 = "aaaabbababbbbaab";
+  const auto expected7 = "bbbbaababaaaabba";
+  const auto expected8 = "bbbbababbaaaabaa";
+  const auto expected9 = "bbbbabaaaababbaa";
   std::vector<std::string> some_vec{expected1, expected2, expected3,
-                                    expected4, expected5, expected6};
+                                    expected4, expected5, expected6,
+                                    expected7, expected8, expected9};
   const auto result = determine_pattern("ab", 4);
   REQUIRE_THAT(some_vec, Catch::Matchers::Contains(result));
 }

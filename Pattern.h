@@ -4,6 +4,7 @@
 #include <complex>
 #include <iostream>
 #include <random>
+#include <set>
 #include <string>
 #include <unordered_set>
 
@@ -24,9 +25,9 @@ std::unordered_set<std::string> generatePermutations(const std::string &text) {
   return permutations;
 }
 
-std::unordered_set<std::string>
+std::set<std::string>
 generatePermutationsForWindow(const std::string &text, int windowLength) {
-  std::unordered_set<std::string> permutations;
+  std::set<std::string> permutations;
 
   std::string start;
   std::string t;
@@ -127,8 +128,12 @@ std::string determine_pattern(const std::string &text, int windowSize) {
   auto pos3 = uniform_dist(e3);
 
   std::string lastPattern(windowSize, text[text.size() - 1]);
-  std::string start(windowSize, text[0]);
-//  start = "aaaabaaa";
+  std::string start(windowSize, text[1]);
+  if(text.size()==3)
+  {
+    start = std::string(windowSize, text[2]);
+  }
+  //  start = "aaaabaaa";
   int group10 = 0;
   int group20 = 0;
   int group30 = 0;
@@ -137,6 +142,8 @@ std::string determine_pattern(const std::string &text, int windowSize) {
   int group60 = 0;
   int group70 = 0;
 
+  std::vector<std::string> potentialStarts;
+//  start = "aaaabaaacaab";
   std::string result;
   int repeat = 0;
   int totalCounter = 0;
@@ -171,9 +178,9 @@ std::string determine_pattern(const std::string &text, int windowSize) {
         if (b) {
           result = tempStr;
           allPossiblePermutation.erase(t);
-//          for (const auto &p : perms) {
-//            allPossiblePermutation.erase(p);
-//          }
+          //          for (const auto &p : perms) {
+          //            allPossiblePermutation.erase(p);
+          //          }
           perm = allPossiblePermutation.begin();
         } else {
           perm++;
@@ -209,8 +216,10 @@ std::string determine_pattern(const std::string &text, int windowSize) {
         group50++;
       } else if (60 < rSize && rSize < 70) {
         group60++;
+        potentialStarts.push_back(result);
       } else if (70 < rSize && rSize < 80) {
         group70++;
+        potentialStarts.push_back(result);
       }
       std::cout << result << " size: " << result.size() << "\n";
     }
@@ -218,7 +227,7 @@ std::string determine_pattern(const std::string &text, int windowSize) {
     if (repeat == stringLength) {
       repeat = 0;
     }
-    if (totalCounter == 50000) {
+    if (totalCounter == 10000) {
 
       std::cout << "10+: " << group10 << "\n";
       std::cout << "20+: " << group20 << "\n";
@@ -227,6 +236,9 @@ std::string determine_pattern(const std::string &text, int windowSize) {
       std::cout << "50+: " << group50 << "\n";
       std::cout << "60+: " << group60 << "\n";
       std::cout << "70+: " << group70 << "\n";
+      for (const auto &pot : potentialStarts) {
+        std::cout << pot << "\n";
+      }
       break;
     }
     totalCounter++;
