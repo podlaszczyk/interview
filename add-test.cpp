@@ -177,10 +177,12 @@ TEST_CASE("determine_pattern  ab 3") {
   const auto expected2 = "bbbabaaa";
   const auto expected3 = "aaabbbab";
   const auto expected4 = "aabbbaba";
+  const auto expected5 = "bbabaaab";
 
   const auto result = determine_pattern("ab", 3);
-  auto match = (expected1 == result || expected2 == result ||
-                expected3 == result || expected4 == result);
+  auto match =
+      (expected1 == result || expected2 == result || expected3 == result ||
+       expected4 == result || expected5 == result);
 
   REQUIRE(true == match);
 }
