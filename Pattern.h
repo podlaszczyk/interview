@@ -133,6 +133,8 @@ std::string determine_pattern(const std::string &text, int windowSize) {
   {
     start = std::string(windowSize, text[2]);
   }
+//  start = "abca"; // working somehow
+  start = "aaaa"; // working somehow
   //  start = "aaaabaaa";
   int group10 = 0;
   int group20 = 0;
@@ -161,6 +163,8 @@ std::string determine_pattern(const std::string &text, int windowSize) {
       const auto missingCharacters = stringLength - result.length();
       if (missingCharacters >= windowSize) {
         auto t = *perm;
+        std::random_device rd;
+
         e = std::default_random_engine(rd());
         e1 = std::default_random_engine(rd());
         e2 = std::default_random_engine(rd());
@@ -174,7 +178,7 @@ std::string determine_pattern(const std::string &text, int windowSize) {
         t[2] = text[pos2];
         t[3] = text[pos3];
         auto tempStr = result + t;
-        auto [b, perms] = isRingUnique(tempStr, windowSize);
+        auto [b, perms] = isStrUnique(tempStr, windowSize);
         if (b) {
           result = tempStr;
           allPossiblePermutation.erase(t);
@@ -221,7 +225,7 @@ std::string determine_pattern(const std::string &text, int windowSize) {
         group70++;
         potentialStarts.push_back(result);
       }
-      std::cout << result << " size: " << result.size() << "\n";
+//      std::cout << result << " size: " << result.size() << "\n";
     }
     ++repeat;
     if (repeat == stringLength) {

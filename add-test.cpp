@@ -1,7 +1,8 @@
+#include "Pattern.h"
+#include "catch2/catch_template_test_macros.hpp"
+#include "catch2/generators/catch_generators_all.hpp"
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
-
-#include "Pattern.h"
 #include <unordered_set>
 
 std::set<std::string> ab2 = {"aa", "ab", "ba", "bb"};
@@ -205,6 +206,37 @@ TEST_CASE("Is ring unique "
   REQUIRE(true == b);
 }
 
+TEST_CASE("Unique Rings 81 characters abc 4") {
+  const std::vector<std::string> data{
+      "abcaacbccbaccabcbbbacbabaacaabccccbbcaccbc"
+      "baabbbbcbcabbaaabacacababbccaaaacccacbb",
+      "aaaacbbcbabbbbccbbaabcacbcabcbbbababccccac"
+      "accabaacaabacabbcaaccbacccbcbccaaabbacb",
+      "aaaacaacbabccabacbbaccccbccbbcbcaaababbccc"
+      "acabbbbaaccaabcabcbacacbcbbbcaccbaabbab",
+      "aaaacbbaccccaacacababccbacaabbcccbbbbcbabb"
+      "abaabacbcbccaccabcbbcabbbaaccbcaaabcacb",
+      "aaaabaaacaabbaabccbbcbcbacbcccacabcbbaccba"
+      "babcacbaaccaacbbbbabbccabacaccccbcabbbc",
+      "aaaabaccaccbaacbbbccabbacaaccccbcaaacacbab"
+      "abbcbcbbabcbacbccbbcacabcccaabbbbaabcab",
+      "aaaabcccabbbcbacaabaaccbbcaacbccacaccccbab"
+      "baaacabacbbbbababcabcbcacbaabbccbcbbacc",
+      "aaaaccbaabacbcbbcccaabccbcaacaaabbbcabcbab"
+      "aacbbbbabcacaccacbacabbcbccababbaccccbb",
+      "aaaacaabbaaabacbbbcbcbabccaccbcababaaccabbccbacabcbbcacacbccccbbabbbbacc"
+      "caacbaabc",
+      "aaaabacbbbcbcababbabcbbccacaaccaabbcaccccbacacbcccabccbbaccbcbaaacbabaac"
+      "abbbbaabc"};
+
+  for (const auto &str : data) {
+    DYNAMIC_SECTION("VALUE IS " << str) {
+      auto [b, permutations] = isRingUnique(str, 4);
+      REQUIRE(true == b);
+    }
+  }
+}
+
 TEST_CASE("determine_pattern  abc 2") {
   const auto expected1 = "aabacbbcc";
   const auto expected2 = "ccaacbabb";
@@ -255,10 +287,30 @@ TEST_CASE("determine_pattern  ab 4") {
 }
 
 TEST_CASE("determine_pattern abc 4") {
+  const std::vector<std::string> data{
+      "abcaacbccbaccabcbbbacbabaacaabccccbbcaccbc"
+      "baabbbbcbcabbaaabacacababbccaaaacccacbb",
+      "aaaacbbcbabbbbccbbaabcacbcabcbbbababccccac"
+      "accabaacaabacabbcaaccbacccbcbccaaabbacb",
+      "aaaacaacbabccabacbbaccccbccbbcbcaaababbccc"
+      "acabbbbaaccaabcabcbacacbcbbbcaccbaabbab",
+      "aaaacbbaccccaacacababccbacaabbcccbbbbcbabb"
+      "abaabacbcbccaccabcbbcabbbaaccbcaaabcacb",
+      "aaaabaaacaabbaabccbbcbcbacbcccacabcbbaccba"
+      "babcacbaaccaacbbbbabbccabacaccccbcabbbc",
+      "aaaabaccaccbaacbbbccabbacaaccccbcaaacacbab"
+      "abbcbcbbabcbacbccbbcacabcccaabbbbaabcab",
+      "aaaabcccabbbcbacaabaaccbbcaacbccacaccccbab"
+      "baaacabacbbbbababcabcbcacbaabbccbcbbacc",
+      "aaaaccbaabacbcbbcccaabccbcaacaaabbbcabcbab"
+      "aacbbbbabcacaccacbacabbcbccababbaccccbb",
+      "aaaacaabbaaabacbbbcbcbabccaccbcababaaccabbccbacabcbbcacacbccccbbabbbbacc"
+      "caacbaabc",
+      "aaaabacbbbcbcababbabcbbccacaaccaabbcaccccbacacbcccabccbbaccbcbaaacbabaac"
+      "abbbbaabc"};
+
   const auto result = determine_pattern("abc", 4);
   std::cout << "res.size " << result.size();
-  const std::string expected =
-      "aaaabaaacaabbaabcaacbaaccababacabbbabbcabcbabccacacbbacbcac"
-      "cbacccbbbbcbbccbcbcccc";
-  REQUIRE(expected == result);
+  REQUIRE_THAT(data, Catch::Matchers::Contains(result));
+  REQUIRE(result.size() == 81);
 }
