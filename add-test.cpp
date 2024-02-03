@@ -206,30 +206,37 @@ TEST_CASE("Is ring unique "
   REQUIRE(true == b);
 }
 
-TEST_CASE("Unique Rings 81 characters abc 4") {
-  const std::vector<std::string> data{
-      "abcaacbccbaccabcbbbacbabaacaabccccbbcaccbc"
-      "baabbbbcbcabbaaabacacababbccaaaacccacbb",
-      "aaaacbbcbabbbbccbbaabcacbcabcbbbababccccac"
-      "accabaacaabacabbcaaccbacccbcbccaaabbacb",
-      "aaaacaacbabccabacbbaccccbccbbcbcaaababbccc"
-      "acabbbbaaccaabcabcbacacbcbbbcaccbaabbab",
-      "aaaacbbaccccaacacababccbacaabbcccbbbbcbabb"
-      "abaabacbcbccaccabcbbcabbbaaccbcaaabcacb",
-      "aaaabaaacaabbaabccbbcbcbacbcccacabcbbaccba"
-      "babcacbaaccaacbbbbabbccabacaccccbcabbbc",
-      "aaaabaccaccbaacbbbccabbacaaccccbcaaacacbab"
-      "abbcbcbbabcbacbccbbcacabcccaabbbbaabcab",
-      "aaaabcccabbbcbacaabaaccbbcaacbccacaccccbab"
-      "baaacabacbbbbababcabcbcacbaabbccbcbbacc",
-      "aaaaccbaabacbcbbcccaabccbcaacaaabbbcabcbab"
-      "aacbbbbabcacaccacbacabbcbccababbaccccbb",
-      "aaaacaabbaaabacbbbcbcbabccaccbcababaaccabbccbacabcbbcacacbccccbbabbbbacc"
-      "caacbaabc",
-      "aaaabacbbbcbcababbabcbbccacaaccaabbcaccccbacacbcccabccbbaccbcbaaacbabaac"
-      "abbbbaabc"};
+const std::vector<std::string> dataABC4{
+    "abcaacbccbaccabcbbbacbabaacaabccccbbcaccbc"
+    "baabbbbcbcabbaaabacacababbccaaaacccacbb",
+    "aaaacbbcbabbbbccbbaabcacbcabcbbbababccccac"
+    "accabaacaabacabbcaaccbacccbcbccaaabbacb",
+    "aaaacaacbabccabacbbaccccbccbbcbcaaababbccc"
+    "acabbbbaaccaabcabcbacacbcbbbcaccbaabbab",
+    "aaaacbbaccccaacacababccbacaabbcccbbbbcbabb"
+    "abaabacbcbccaccabcbbcabbbaaccbcaaabcacb",
+    "aaaabaaacaabbaabccbbcbcbacbcccacabcbbaccba"
+    "babcacbaaccaacbbbbabbccabacaccccbcabbbc",
+    "aaaabaccaccbaacbbbccabbacaaccccbcaaacacbab"
+    "abbcbcbbabcbacbccbbcacabcccaabbbbaabcab",
+    "aaaabcccabbbcbacaabaaccbbcaacbccacaccccbab"
+    "baaacabacbbbbababcabcbcacbaabbccbcbbacc",
+    "aaaaccbaabacbcbbcccaabccbcaacaaabbbcabcbab"
+    "aacbbbbabcacaccacbacabbcbccababbaccccbb",
+    "aaaacaabbaaabacbbbcbcbabccaccbcababaaccabbccbacabcbbcacacbccccbbabbbbacc"
+    "caacbaabc",
+    "aaaabacbbbcbcababbabcbbccacaaccaabbcaccccbacacbcccabccbbaccbcbaaacbabaac"
+    "abbbbaabc",
+    "aaaacbbaaccbcaabcaccacababaabbbabccccbbcbccabbcabcbbbbccbacaaabacbcbabba"
+    "cccaacacb",
+    "ccccbbcbcacbcbbacaaccbccaaabbbccbabacbbbbabbcabcbaaaacabbaababcaabcccaba"
+    "acbaccaca",
+    "ccccaaaabaaacaabbaabcaacbaaccababacabbbabbcabcbabccacacbbacbcaccbacccbbb"
+    "bcbbccbcb"};
 
-  for (const auto &str : data) {
+TEST_CASE("Unique Rings 81 characters abc 4") {
+
+  for (const auto &str : dataABC4) {
     DYNAMIC_SECTION("VALUE IS " << str) {
       auto [b, permutations] = isRingUnique(str, 4);
       REQUIRE(true == b);
@@ -279,38 +286,17 @@ TEST_CASE("determine_pattern  ab 4") {
   const auto expected7 = "bbbbaababaaaabba";
   const auto expected8 = "bbbbababbaaaabaa";
   const auto expected9 = "bbbbabaaaababbaa";
-  std::vector<std::string> some_vec{expected1, expected2, expected3,
-                                    expected4, expected5, expected6,
-                                    expected7, expected8, expected9};
+  const auto expected10 = "bbbbaaaabaabbaba";
+  std::vector<std::string> some_vec{expected1, expected2, expected3, expected4,
+                                    expected5, expected6, expected7, expected8,
+                                    expected9, expected10};
   const auto result = determine_pattern("ab", 4);
   REQUIRE_THAT(some_vec, Catch::Matchers::Contains(result));
 }
 
 TEST_CASE("determine_pattern abc 4") {
-  const std::vector<std::string> data{
-      "abcaacbccbaccabcbbbacbabaacaabccccbbcaccbc"
-      "baabbbbcbcabbaaabacacababbccaaaacccacbb",
-      "aaaacbbcbabbbbccbbaabcacbcabcbbbababccccac"
-      "accabaacaabacabbcaaccbacccbcbccaaabbacb",
-      "aaaacaacbabccabacbbaccccbccbbcbcaaababbccc"
-      "acabbbbaaccaabcabcbacacbcbbbcaccbaabbab",
-      "aaaacbbaccccaacacababccbacaabbcccbbbbcbabb"
-      "abaabacbcbccaccabcbbcabbbaaccbcaaabcacb",
-      "aaaabaaacaabbaabccbbcbcbacbcccacabcbbaccba"
-      "babcacbaaccaacbbbbabbccabacaccccbcabbbc",
-      "aaaabaccaccbaacbbbccabbacaaccccbcaaacacbab"
-      "abbcbcbbabcbacbccbbcacabcccaabbbbaabcab",
-      "aaaabcccabbbcbacaabaaccbbcaacbccacaccccbab"
-      "baaacabacbbbbababcabcbcacbaabbccbcbbacc",
-      "aaaaccbaabacbcbbcccaabccbcaacaaabbbcabcbab"
-      "aacbbbbabcacaccacbacabbcbccababbaccccbb",
-      "aaaacaabbaaabacbbbcbcbabccaccbcababaaccabbccbacabcbbcacacbccccbbabbbbacc"
-      "caacbaabc",
-      "aaaabacbbbcbcababbabcbbccacaaccaabbcaccccbacacbcccabccbbaccbcbaaacbabaac"
-      "abbbbaabc"};
-
   const auto result = determine_pattern("abc", 4);
   std::cout << "res.size " << result.size();
-  REQUIRE_THAT(data, Catch::Matchers::Contains(result));
+  REQUIRE_THAT(dataABC4, Catch::Matchers::Contains(result));
   REQUIRE(result.size() == 81);
 }

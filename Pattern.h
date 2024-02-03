@@ -134,7 +134,7 @@ std::string determine_pattern(const std::string &text, int windowSize) {
     start = std::string(windowSize, text[2]);
   }
 //  start = "abca"; // working somehow
-  start = "aaaa"; // working somehow
+//  start = "aaaa"; // working somehow
   //  start = "aaaabaaa";
   int group10 = 0;
   int group20 = 0;
@@ -163,20 +163,20 @@ std::string determine_pattern(const std::string &text, int windowSize) {
       const auto missingCharacters = stringLength - result.length();
       if (missingCharacters >= windowSize) {
         auto t = *perm;
-        std::random_device rd;
+//        std::random_device rd;
 
-        e = std::default_random_engine(rd());
-        e1 = std::default_random_engine(rd());
-        e2 = std::default_random_engine(rd());
-        e3 = std::default_random_engine(rd());
-        pos = uniform_dist(e);
-        pos1 = uniform_dist(e1);
-        pos2 = uniform_dist(e2);
-        pos3 = uniform_dist(e3);
-        t[0] = text[pos];
-        t[1] = text[pos1];
-        t[2] = text[pos2];
-        t[3] = text[pos3];
+//        e = std::default_random_engine(rd());
+//        e1 = std::default_random_engine(rd());
+//        e2 = std::default_random_engine(rd());
+//        e3 = std::default_random_engine(rd());
+//        pos = uniform_dist(e);
+//        pos1 = uniform_dist(e1);
+//        pos2 = uniform_dist(e2);
+//        pos3 = uniform_dist(e3);
+//        t[0] = text[pos];
+//        t[1] = text[pos1];
+//        t[2] = text[pos2];
+//        t[3] = text[pos3];
         auto tempStr = result + t;
         auto [b, perms] = isStrUnique(tempStr, windowSize);
         if (b) {
