@@ -96,7 +96,7 @@ PenaltyExcessCharacter: 80
 PenaltyBreakComment: 80
 PointerAlignment: Left
 QualifierAlignment: Custom
-QualifierOrder: ['friend', 'inline', 'const', 'constexpr', 'static', 'type', 'volatile' ]
+QualifierOrder: [ 'friend', 'inline', 'const', 'constexpr', 'static', 'type', 'volatile' ]
 
 ReferenceAlignment: Left
 ReflowComments: false

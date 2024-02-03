@@ -1,0 +1,77 @@
+#modernize-pass-by-value,
+Checks: '
+clang-diagnostic-*,
+clang-analyzer-*,
+cppcoreguidelines-*,
+-cppcoreguidelines-avoid-do-while,
+-cppcoreguidelines-avoid-magic-numbers,
+modernize-*,
+-modernize-use-trailing-return-type,
+-modernize-pass-by-value,
+readability-*,
+-readability-qualified-auto,
+-readability-redundant-access-specifiers,
+-readability-use-anyofallof,
+-readability-magic-numbers,
+performance-*,
+bugprone-*,
+-bugprone-easily-swappable-parameters,
+misc-*,
+-misc-no-recursion,
+-misc-include-cleaner,
+google-*,
+llvm-*,
+-llvm-header-guard,
+-llvm-include-order,
+-llvm-qualified-auto,
+fuchsia-*,
+-fuchsia-overloaded-operator,
+-fuchsia-default-arguments-calls
+'
+
+WarningsAsErrors: '
+*
+'
+
+HeaderFilterRegex: '[A-Z][A-Za-z0-9]*\.h'
+AnalyzeTemporaryDtors: false
+InheritParentConfig: true
+FormatStyle: file
+
+CheckOptions:
+  - key: cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
+    value: true
+  - key: misc-non-private-member-variables-in-classes.IgnoreClassesWithAllMemberVariablesBeingPublic
+    value: true
+  - key: readability-magic-numbers.IgnoredFloatingPointValues
+    value: 2.0F
+  - key: readability-identifier-length.MinimumVariableNameLength
+    value: 2
+  - key: readability-identifier-length.MinimumParameterNameLength
+    value: 2
+  - key: readability-identifier-length.IgnoredVariableNames
+    value: 'r|q|x|y|z|w|pi|uv|u|v'
+  - key: readability-identifier-length.IgnoredParameterNames
+    value: 'r|q|x|y|z|w|uv|u|v'
+  - key: readability-identifier-naming.VariableCase
+    value: 'camelBack'
+  - key: readability-identifier-naming.EnumCase
+    value: 'CamelCase'
+  - key: readability-identifier-naming.EnumConstantCase
+    value: 'CamelCase'
+  - key: readability-identifier-naming.ClassCase
+    value: 'CamelCase'
+  - key: readability-identifier-naming.AbstractClassPrefix
+    value: 'I'
+  - key: readability-identifier-naming.ClassMemberCase
+    value: 'camelBack'
+  - key: readability-identifier-naming.ClassMethodCase
+    value: 'camelBack'
+  - key: readability-identifier-naming.FunctionCase
+    value: 'camelBack'
+  - key: readability-identifier-naming.NamespaceCase
+    value: 'camelBack'
+  - key: readability-identifier-naming.TemplateParameterCase
+    value: 'CamelCase'
+  - key: readability-identifier-naming.TypeAliasCase
+    value: 'CamelCase'

@@ -1,42 +1,13 @@
-#include "Pattern.h"
+#include "DeterminePattern.h"
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_all.hpp>
 
+#include <cmath>
 #include <unordered_set>
 
-#include "catch2/generators/catch_generators_all.hpp"
-
-std::set<std::string> ab2 = {"aa", "ab", "ba", "bb"};
-std::set<std::string> ab3 = {"aaa", "aba", "aab", "abb", "baa", "bba", "bab", "bbb"};
-std::set<std::string> abc2 = {"aa", "ab", "ba", "ac", "ca", "cb", "cc", "bc", "bb"};
-std::set<std::string> ab4 = {
-    "aaaa", "bbbb", "aaab", "aaba", "abaa", "baaa", "bbba", "bbab", "babb", "abbb", "aabb", "abba", "bbaa", "baab", "abab", "baba"};
-
-std::set<std::string> abc3 = {"aaa", "baa", "caa", "aba", "bba", "cba", "aab", "bab", "cab", "abb", "bbb", "cbb", "abc", "bbc",
-                              "cbc", "aca", "bca", "cca", "aac", "bac", "cac", "acb", "bcb", "ccb", "acc", "bcc", "ccc"};
-
-std::set<std::string> abc4 = {"aaaa", "baaa", "caaa", "abaa", "bbaa", "cbaa", "aaba", "baba", "caba", "aaab", "baab", "caab",
-                              "acaa", "bcaa", "ccaa", "aaca", "baca", "caca", "aaac", "baac", "caac", "abba", "bbba", "cbba",
-                              "abab", "bbab", "cbab", "aabb", "babb", "cabb", "acca", "bcca", "ccca", "acac", "bcac", "ccac",
-                              "aacc", "bacc", "cacc", "abbc", "bbbc", "cbbc", "abcb", "bbcb", "cbcb", "acbb", "bcbb", "ccbb",
-                              "aabc", "babc", "cabc", "aacb", "bacb", "cacb", "abac", "bbac", "cbac", "abca", "bbca", "cbca",
-                              "acba", "bcba", "ccba", "acab", "bcab", "ccab", "abcc", "bbcc", "cbcc", "acbc", "bcbc", "ccbc",
-                              "accb", "bccb", "cccb", "accc", "bccc", "cccc", "abbb", "bbbb", "cbbb"};
-
-const std::vector<std::string> dataABC4{"abcaacbccbaccabcbbbacbabaacaabccccbbcaccbcbaabbbbcbcabbaaabacacababbccaaaacccacbb",
-                                        "aaaacbbcbabbbbccbbaabcacbcabcbbbababccccacaccabaacaabacabbcaaccbacccbcbccaaabbacb",
-                                        "aaaacaacbabccabacbbaccccbccbbcbcaaababbcccacabbbbaaccaabcabcbacacbcbbbcaccbaabbab",
-                                        "aaaacbbaccccaacacababccbacaabbcccbbbbcbabbabaabacbcbccaccabcbbcabbbaaccbcaaabcacb",
-                                        "aaaabaaacaabbaabccbbcbcbacbcccacabcbbaccbababcacbaaccaacbbbbabbccabacaccccbcabbbc",
-                                        "aaaabaccaccbaacbbbccabbacaaccccbcaaacacbababbcbcbbabcbacbccbbcacabcccaabbbbaabcab",
-                                        "aaaabcccabbbcbacaabaaccbbcaacbccacaccccbabbaaacabacbbbbababcabcbcacbaabbccbcbbacc",
-                                        "aaaaccbaabacbcbbcccaabccbcaacaaabbbcabcbabaacbbbbabcacaccacbacabbcbccababbaccccbb",
-                                        "aaaacaabbaaabacbbbcbcbabccaccbcababaaccabbccbacabcbbcacacbccccbbabbbbacccaacbaabc",
-                                        "aaaabacbbbcbcababbabcbbccacaaccaabbcaccccbacacbcccabccbbaccbcbaaacbabaacabbbbaabc",
-                                        "aaaacbbaaccbcaabcaccacababaabbbabccccbbcbccabbcabcbbbbccbacaaabacbcbabbacccaacacb",
-                                        "ccccbbcbcacbcbbacaaccbccaaabbbccbabacbbbbabbcabcbaaaacabbaababcaabcccabaacbaccaca",
-                                        "ccccaaaabaaacaabbaabcaacbaaccababacabbbabbcabcbabccacacbbacbcaccbacccbbbbcbbccbcb"};
+namespace determinePattern
+{
 
 TEST_CASE("Generate permutations")
 {
@@ -61,11 +32,15 @@ TEST_CASE("Generate permutations for window")
         SECTION("ab")
         {
             const auto result = generatePermutationsForWindow("ab", 2);
+            const std::set<std::string> ab2{"aa", "ab", "ba", "bb"};
+
             REQUIRE(result == ab2);
         }
         SECTION("abc")
         {
             const auto result = generatePermutationsForWindow("abc", 2);
+            const std::set<std::string> abc2 = {"aa", "ab", "ba", "ac", "ca", "cb", "cc", "bc", "bb"};
+
             REQUIRE(result == abc2);
         }
     }
@@ -74,11 +49,16 @@ TEST_CASE("Generate permutations for window")
         SECTION("ab3")
         {
             const auto result = generatePermutationsForWindow("ab", 3);
+            const std::set<std::string> ab3 = {"aaa", "aba", "aab", "abb", "baa", "bba", "bab", "bbb"};
+
             REQUIRE(result == ab3);
         }
         SECTION("abc3")
         {
             const auto result = generatePermutationsForWindow("abc", 3);
+            const std::set<std::string> abc3 = {"aaa", "baa", "caa", "aba", "bba", "cba", "aab", "bab", "cab",
+                                                "abb", "bbb", "cbb", "abc", "bbc", "cbc", "aca", "bca", "cca",
+                                                "aac", "bac", "cac", "acb", "bcb", "ccb", "acc", "bcc", "ccc"};
             REQUIRE(result == abc3);
         }
     }
@@ -87,10 +67,34 @@ TEST_CASE("Generate permutations for window")
         SECTION("ab4")
         {
             const auto result = generatePermutationsForWindow("ab", 4);
+            const std::set<std::string> ab4 = {"aaaa",
+                                               "bbbb",
+                                               "aaab",
+                                               "aaba",
+                                               "abaa",
+                                               "baaa",
+                                               "bbba",
+                                               "bbab",
+                                               "babb",
+                                               "abbb",
+                                               "aabb",
+                                               "abba",
+                                               "bbaa",
+                                               "baab",
+                                               "abab",
+                                               "baba"};
             REQUIRE(result == ab4);
         }
         SECTION("abc4")
         {
+            const std::set<std::string> abc4 = {"aaaa", "baaa", "caaa", "abaa", "bbaa", "cbaa", "aaba", "baba", "caba", "aaab", "baab",
+                                                "caab", "acaa", "bcaa", "ccaa", "aaca", "baca", "caca", "aaac", "baac", "caac", "abba",
+                                                "bbba", "cbba", "abab", "bbab", "cbab", "aabb", "babb", "cabb", "acca", "bcca", "ccca",
+                                                "acac", "bcac", "ccac", "aacc", "bacc", "cacc", "abbc", "bbbc", "cbbc", "abcb", "bbcb",
+                                                "cbcb", "acbb", "bcbb", "ccbb", "aabc", "babc", "cabc", "aacb", "bacb", "cacb", "abac",
+                                                "bbac", "cbac", "abca", "bbca", "cbca", "acba", "bcba", "ccba", "acab", "bcab", "ccab",
+                                                "abcc", "bbcc", "cbcc", "acbc", "bcbc", "ccbc", "accb", "bccb", "cccb", "accc", "bccc",
+                                                "cccc", "abbb", "bbbb", "cbbb"};
             const auto result = generatePermutationsForWindow("abc", 4);
             // to make sure that verification data is correct
             REQUIRE(abc4.size() == 81);
@@ -141,6 +145,7 @@ TEST_CASE("Is string unique")
     }
 }
 
+// NOLINTNEXTLINE
 TEST_CASE("Is ring unique")
 {
     SECTION("window 2")
@@ -267,6 +272,24 @@ TEST_CASE("Is ring unique")
         }
         SECTION("Unique Rings 81 characters abc 4")
         {
+            const std::vector<std::string> dataABC4{
+                "abcaacbccbaccabcbbbacbabaacaabccccbbcaccbcbaabbbbcbcabbaaabacacababbccaaaacccacbb",
+                "aaaacbbcbabbbbccbbaabcacbcabcbbbababccccacaccabaacaabacabbcaaccbacccbcbccaaabbacb",
+                "aaaacaacbabccabacbbaccccbccbbcbcaaababbcccacabbbbaaccaabcabcbacacbcbbbcaccbaabbab",
+                "aaaacbbaccccaacacababccbacaabbcccbbbbcbabbabaabacbcbccaccabcbbcabbbaaccbcaaabcacb",
+                "aaaabaaacaabbaabccbbcbcbacbcccacabcbbaccbababcacbaaccaacbbbbabbccabacaccccbcabbbc",
+                "aaaabaccaccbaacbbbccabbacaaccccbcaaacacbababbcbcbbabcbacbccbbcacabcccaabbbbaabcab",
+                "aaaabcccabbbcbacaabaaccbbcaacbccacaccccbabbaaacabacbbbbababcabcbcacbaabbccbcbbacc",
+                "aaaaccbaabacbcbbcccaabccbcaacaaabbbcabcbabaacbbbbabcacaccacbacabbcbccababbaccccbb",
+                "aaaacaabbaaabacbbbcbcbabccaccbcababaaccabbccbacabcbbcacacbccccbbabbbbacccaacbaabc",
+                "aaaabacbbbcbcababbabcbbccacaaccaabbcaccccbacacbcccabccbbaccbcbaaacbabaacabbbbaabc",
+                "aaaacbbaaccbcaabcaccacababaabbbabccccbbcbccabbcabcbbbbccbacaaabacbcbabbacccaacacb",
+                "ccccbbcbcacbcbbacaaccbccaaabbbccbabacbbbbabbcabcbaaaacabbaababcaabcccabaacbaccaca",
+                "ccccaaaabaaacaabbaabcaacbaaccababacabbbabbcabcbabccacacbbacbcaccbacccbbbbcbbccbcb",
+                "bbbbaaaabaabbababbbcaaacaabcabacabbcbaacbabcbbacbbccaaccabccbaccbcacacbcbcccacccc",
+                "aaaacccbaaabaabbaacaabcaacbababbbabcbacabacbbaccabbcabccacacbcaccbbbbcbbccbcbcccc",
+            };
+
             for (const auto& str : dataABC4) {
                 DYNAMIC_SECTION("VALUE IS " << str)
                 {
@@ -284,21 +307,34 @@ TEST_CASE("Determine pattern ")
     {
         SECTION("abc 2")
         {
-            const auto expected1 = "aabacbbcc";
-            const auto expected2 = "ccaacbabb";
-            const auto expected3 = "aaccbcabb";
-            const auto expected4 = "aabcbbacc";
-            const auto expected5 = "aacbccabb";
-            const auto expected6 = "aabbacbcc";
-            const auto expected7 = "aaccabcbb";
-            const auto expected8 = "bbacaabcc";
-            const auto expected9 = "bbcaccbaa";
-            const auto expected10 = "ccaabacbb";
-            std::vector<std::string>
-                some_vec{expected1, expected2, expected3, expected4, expected5, expected6, expected7, expected8, expected9, expected10};
+            GIVEN("list of possible solutions")
+            {
+                const auto expected1 = "aabacbbcc";
+                const auto expected2 = "ccaacbabb";
+                const auto expected3 = "aaccbcabb";
+                const auto expected4 = "aabcbbacc";
+                const auto expected5 = "aacbccabb";
+                const auto expected6 = "aabbacbcc";
+                const auto expected7 = "aaccabcbb";
+                const auto expected8 = "bbacaabcc";
+                const auto expected9 = "bbcaccbaa";
+                const auto expected10 = "ccaabacbb";
+                const auto expected11 = "bbaabcacc";
+                std::vector<std::string> expectedVec{expected1,
+                                                     expected2,
+                                                     expected3,
+                                                     expected4,
+                                                     expected5,
+                                                     expected6,
+                                                     expected7,
+                                                     expected8,
+                                                     expected9,
+                                                     expected10,
+                                                     expected11};
 
-            const auto result = determine_pattern("abc", 2);
-            REQUIRE_THAT(some_vec, Catch::Matchers::Contains(result));
+                const auto result = determinePattern::determinePattern("abc", 2);
+                REQUIRE_THAT(expectedVec, Catch::Matchers::Contains(result));
+            }
         }
     }
     SECTION("window 3")
@@ -311,9 +347,9 @@ TEST_CASE("Determine pattern ")
             const auto expected4 = "aabbbaba";
             const auto expected5 = "bbabaaab";
             const auto expected6 = "bbbaaaba";
-            std::vector<std::string> some_vec{expected1, expected2, expected3, expected4, expected5, expected6};
-            const auto result = determine_pattern("ab", 3);
-            REQUIRE_THAT(some_vec, Catch::Matchers::Contains(result));
+            std::vector<std::string> expectedVec{expected1, expected2, expected3, expected4, expected5, expected6};
+            const auto result = determinePattern::determinePattern("ab", 3);
+            REQUIRE_THAT(expectedVec, Catch::Matchers::Contains(result));
         }
     }
     SECTION("window 4")
@@ -330,18 +366,63 @@ TEST_CASE("Determine pattern ")
             const auto expected8 = "bbbbababbaaaabaa";
             const auto expected9 = "bbbbabaaaababbaa";
             const auto expected10 = "bbbbaaaabaabbaba";
-            std::vector<std::string>
-                some_vec{expected1, expected2, expected3, expected4, expected5, expected6, expected7, expected8, expected9, expected10};
-            const auto result = determine_pattern("ab", 4);
-            REQUIRE_THAT(some_vec, Catch::Matchers::Contains(result));
+            const auto expected11 = "aaaababaabbabbba";
+            std::vector<std::string> expectedVec{expected1,
+                                                 expected2,
+                                                 expected3,
+                                                 expected4,
+                                                 expected5,
+                                                 expected6,
+                                                 expected7,
+                                                 expected8,
+                                                 expected9,
+                                                 expected10,
+                                                 expected11};
+            const auto result = determinePattern::determinePattern("ab", 4);
+            REQUIRE_THAT(expectedVec, Catch::Matchers::Contains(result));
         }
 
         SECTION("abc 4")
         {
-            const auto result = determine_pattern("abc", 4);
-            std::cout << result;
+            const std::vector<std::string> dataABC4{
+                "abcaacbccbaccabcbbbacbabaacaabccccbbcaccbcbaabbbbcbcabbaaabacacababbccaaaacccacbb",
+                "aaaacbbcbabbbbccbbaabcacbcabcbbbababccccacaccabaacaabacabbcaaccbacccbcbccaaabbacb",
+                "aaaacaacbabccabacbbaccccbccbbcbcaaababbcccacabbbbaaccaabcabcbacacbcbbbcaccbaabbab",
+                "aaaacbbaccccaacacababccbacaabbcccbbbbcbabbabaabacbcbccaccabcbbcabbbaaccbcaaabcacb",
+                "aaaabaaacaabbaabccbbcbcbacbcccacabcbbaccbababcacbaaccaacbbbbabbccabacaccccbcabbbc",
+                "aaaabaccaccbaacbbbccabbacaaccccbcaaacacbababbcbcbbabcbacbccbbcacabcccaabbbbaabcab",
+                "aaaabcccabbbcbacaabaaccbbcaacbccacaccccbabbaaacabacbbbbababcabcbcacbaabbccbcbbacc",
+                "aaaaccbaabacbcbbcccaabccbcaacaaabbbcabcbabaacbbbbabcacaccacbacabbcbccababbaccccbb",
+                "aaaacaabbaaabacbbbcbcbabccaccbcababaaccabbccbacabcbbcacacbccccbbabbbbacccaacbaabc",
+                "aaaabacbbbcbcababbabcbbccacaaccaabbcaccccbacacbcccabccbbaccbcbaaacbabaacabbbbaabc",
+                "aaaacbbaaccbcaabcaccacababaabbbabccccbbcbccabbcabcbbbbccbacaaabacbcbabbacccaacacb",
+                "ccccbbcbcacbcbbacaaccbccaaabbbccbabacbbbbabbcabcbaaaacabbaababcaabcccabaacbaccaca",
+                "ccccaaaabaaacaabbaabcaacbaaccababacabbbabbcabcbabccacacbbacbcaccbacccbbbbcbbccbcb",
+                "bbbbaaaabaabbababbbcaaacaabcabacabbcbaacbabcbbacbbccaaccabccbaccbcacacbcbcccacccc",
+                "aaaacccbaaabaabbaacaabcaacbababbbabcbacabacbbaccabbcabccacacbcaccbbbbcbbccbcbcccc",
+            };
+
+            const auto result = determinePattern::determinePattern("abc", 4);
             REQUIRE_THAT(dataABC4, Catch::Matchers::Contains(result));
             REQUIRE(result.size() == 81);
+            WARN(result);
         }
     }
 }
+
+TEST_CASE("Window size less than 2 throws")
+{
+    REQUIRE_THROWS_WITH(determinePattern::determinePattern("abc", 0), "window size must not be < 2");
+}
+
+TEST_CASE(".xO 4")
+{
+    const std::string inputString{".xO"};
+    const auto windowLength = 4;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+} // namespace determinePattern
