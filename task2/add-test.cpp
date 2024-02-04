@@ -61,6 +61,18 @@ TEST_CASE("Generate permutations for window")
                                                 "aac", "bac", "cac", "acb", "bcb", "ccb", "acc", "bcc", "ccc"};
             REQUIRE(result == abc3);
         }
+        SECTION("abcd 3")
+        {
+            const auto result = generatePermutationsForWindow("abcd", 3);
+            std::set<std::string> abcPermutation{"aaa", "aab", "aac", "aad", "aba", "abb", "abc", "abd", "aca", "acb", "acc", "acd", "ada",
+                                                 "adb", "adc", "add", "baa", "bab", "bac", "bad", "bba", "bbb", "bbc", "bbd", "bca", "bcb",
+                                                 "bcc", "bcd", "bda", "bdb", "bdc", "bdd", "caa", "cab", "cac", "cad", "cba", "cbb", "cbc",
+                                                 "cbd", "cca", "ccb", "ccc", "ccd", "cda", "cdb", "cdc", "cdd", "daa", "dab", "dac", "dad",
+                                                 "dba", "dbb", "dbc", "dbd", "dca", "dcb", "dcc", "dcd", "dda", "ddb", "ddc", "ddd"};
+
+            REQUIRE(result.size() == 4 * 4 * 4);
+            REQUIRE(abcPermutation == result);
+        }
     }
     SECTION("window size 4")
     {
@@ -424,5 +436,16 @@ TEST_CASE(".xO 4")
     REQUIRE(true == b);
     REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
     WARN(result);
+}
+
+TEST_CASE(".xOa 4")
+{
+    const std::string inputString{"abcd"};
+    const auto windowLength = 3;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    WARN(result);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
 }
 } // namespace determinePattern

@@ -24,44 +24,33 @@ std::unordered_set<std::string> determinePattern::generatePermutations(const std
 
 std::set<std::string> determinePattern::generatePermutationsForWindow(const std::string& text, int windowLength)
 {
+    const auto expectedStringLength = static_cast<size_t>(std::pow(text.size(), windowLength));
+
     std::set<std::string> permutations;
 
-    std::vector<std::string> basics;
+    std::vector<std::string> subtexts(text.size());
 
-    for (const auto& character : text) {
-        const auto permutation = std::string(windowLength, character);
-        permutations.insert(permutation);
-        basics.push_back(permutation);
+    for(int i=0; i < text.size(); ++i)
+    {
+        subtexts[i].push_back(text[i]);
     }
-    if (windowLength == text.size()) {
-        permutations.insert(text);
-        basics.push_back(text);
-    }
-    if (windowLength > text.size()) {
-        for (int k = 0; k < text.size(); ++k) {
-            std::string str(windowLength, text[k]);
-            int index = 0;
-            for (const auto& character : text) {
-                str[index] = character;
-                index++;
+
+    while(subtexts.size() != expectedStringLength)
+    {
+        std::vector<std::string> extendedSubtexts;
+        for(int i = 0;  i < subtexts.size(); ++i)
+        {
+            for(auto c : text)
+            {
+                auto newText = subtexts[i] + c;
+                extendedSubtexts.push_back(newText);
             }
-            permutations.insert(str);
-            basics.push_back(str);
         }
+        subtexts = extendedSubtexts;
     }
-
-    // swap to make sure
-    // that all possible texts for permutation is used
-    for (int swapIndex = 0; swapIndex < windowLength; ++swapIndex) {
-        for (int i = 0; i < basics.size() - 1; ++i) {
-            std::swap(basics[i][swapIndex], basics[i + 1][swapIndex]);
-        }
-        for (const auto& basic : basics) {
-            auto newPermutations = generatePermutations(basic);
-            permutations.insert(newPermutations.begin(), newPermutations.end());
-        }
-    }
+    permutations.insert(subtexts.begin(), subtexts.end());
     return permutations;
+
 }
 
 std::pair<bool, std::unordered_set<std::string>> determinePattern::isRingUnique(const std::string& ring, int frame)
@@ -73,7 +62,7 @@ std::pair<bool, std::unordered_set<std::string>> determinePattern::isRingUnique(
         return {true, permutations};
     }
     // add at the end of string frame-1 characters from start
-    // simulate cyclural buffer
+    // simulate circular buffer
     auto ringExtendedWithFrame = ring + std::string(ring, 0, frame - 1);
 
     for (size_t i = 0; i < ring.size(); ++i) {
