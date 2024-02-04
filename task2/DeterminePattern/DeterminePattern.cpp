@@ -76,18 +76,27 @@ std::string determinePattern::determinePattern(const std::string& text, int wind
     auto allPossiblePermutation = nonModifiableAllPossiblePermutations;
 
     const std::string start(windowSize, text[0]);
+    const std::string last(windowSize, text[text.size()-1]);
 
     std::string result;
     int repeat = 0;
     while (isResultMaximumLength(expectedStringLength, result)) {
         const auto nextStartingPermutation = getNextStartingPermutation(nonModifiableAllPossiblePermutations, repeat);
-        result = start + nextStartingPermutation;
+        if (expectedStringLength > 3 * windowSize) {
+            result = last + start + nextStartingPermutation;
+        }
+        else {
+            result = start + nextStartingPermutation;
+        }
 
         allPossiblePermutation = nonModifiableAllPossiblePermutations;
         auto availablePermutation = allPossiblePermutation.begin();
         while (hasPossiblePermutationAvailable(allPossiblePermutation, availablePermutation)) {
             const auto missingCharacters = expectedStringLength - result.length();
-            if (missingCharacters >= windowSize) {
+            if (missingCharacters > expectedStringLength) {
+                throw std::logic_error("buffer overfow");
+            }
+            if (missingCharacters > windowSize) {
                 auto candidate = *availablePermutation;
 
                 auto tempStr = result + candidate;
@@ -102,22 +111,39 @@ std::string determinePattern::determinePattern(const std::string& text, int wind
                 }
             }
             else {
-                // add last missing characters part of existing possible permutations
-                for (const auto& perm : allPossiblePermutation) {
-                    const auto tempStr = result + std::string(perm, 0, missingCharacters);
-                    auto [boolean, perms] = isRingUnique(tempStr, windowSize);
-                    if (boolean) {
-                        result = tempStr;
-                        return result;
+                if (missingCharacters < windowSize) {
+                    // add last missing characters part of existing possible permutations
+                    for (const auto& perm : allPossiblePermutation) {
+                        const auto tempStr = result + std::string(perm, 0, missingCharacters);
+                        auto [boolean, perms] = isRingUnique(tempStr, windowSize);
+                        if (boolean) {
+                            result = tempStr;
+                            return result;
+                        }
                     }
+                    break;
                 }
-                break;
+                else if (missingCharacters == windowSize) {
+                    for (const auto& perm : allPossiblePermutation) {
+                        const auto tempStr = result + std::string(perm, 0, missingCharacters);
+                        auto [boolean, perms] = isRingUnique(tempStr, windowSize);
+                        if (boolean) {
+                            result = tempStr;
+                            return result;
+                        }
+                    }
+                    break;
+                }
             }
         }
         if (result.size() == expectedStringLength) {
-            return result;
+            auto [boolean, perms] = isRingUnique(result, windowSize);
+            if (boolean) {
+                return result;
+            }
+            //            return result;
         }
-        if (repeat == expectedStringLength) {
+        if (repeat == expectedStringLength - 1) {
             repeat = 0;
         }
         repeat++;

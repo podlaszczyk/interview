@@ -301,6 +301,51 @@ TEST_CASE("Is ring unique")
             }
         }
     }
+    SECTION("window 5")
+    {
+        auto [b, permutations] = isRingUnique("aaaaabbabbaaabaabababbbaabbbbabb", 5);
+        REQUIRE(false == b);
+    }
+    SECTION("window 6")
+    {
+        auto [b, permutations] = isRingUnique(
+            "ddddddaaaaaabaaaaacaaaaadaaaabbaaaabcaaaabdaaaacbaaaaccaaaacdaaaadbaaaadcaaaaddaaababaaabacaaabadaaabbbaaabbcaaabbdaaabcbaaabc"
+            "caaabcdaaabdbaaabdcaaabddaaacabaaacacaaacadaaacbbaaacbcaaacbdaaaccbaaacccaaaccdaaacdbaaacdcaaacddaaadabaaadacaaadadaaadbbaaadb"
+            "caaadbdaaadcbaaadccaaadcdaaaddbaaaddcaaadddaabaabaacaabaadaababbaababcaababdaabacbaabaccaabacdaabadbaabadcaabaddaabbabaabbacaa"
+            "bbadaabbbbaabbbcaabbbdaabbcbaabbccaabbcdaabbdbaabbdcaabbddaabcabaabcacaabcadaabcbbaabcbcaabcbdaabccbaabcccaabccdaabcdbaabcdcaa"
+            "bcddaabdabaabdacaabdadaabdbbaabdbcaabdbdaabdcbaabdccaabdcdaabddbaabddcaabdddaacaacaadaacabbaacabcaacabdaacacbaacaccaacacdaacad"
+            "baacadcaacaddaacbabaacbacaacbadaacbbbaacbbcaacbbdaacbcbaacbccaacbcdaacbdbaacbdcaacbddaaccabaaccacaaccadaaccbbaaccbcaaccbdaaccc"
+            "baaccccaacccdaaccdbaaccdcaaccddaacdabaacdacaacdadaacdbbaacdbcaacdbdaacdcbaacdccaacdcdaacddbaacddcaacdddaadaadabbaadabcaadabdaa"
+            "dacbaadaccaadacdaadadbaadadcaadaddaadbabaadbacaadbadaadbbbaadbbcaadbbdaadbcbaadbccaadbcdaadbdbaadbdcaadbddaadcabaadcacaadcadaa"
+            "dcbbaadcbcaadcbdaadccbaadcccaadccdaadcdbaadcdcaadcddaaddabaaddacaaddadaaddbbaaddbcaaddbdaaddcbaaddccaaddcdaadddbaadddcaaddddab"
+            "ababacababadababbbababbcababbdababcbababccababcdababdbababdcababddabacacabacadabacbbabacbcabacbdabaccbabacccabaccdabacdbabacdc"
+            "abacddabadacabadadabadbbabadbcabadbdabadcbabadccabadcdabaddbabaddcabadddabbabbabcabbabdabbacbabbaccabbacdabbadbabbadcabbaddabb"
+            "bacabbbadabbbbbabbbbcabbbbdabbbcbabbbccabbbcdabbbdbabbbdcabbbddabbcacabbcadabbcbbabbcbcabbcbdabbccbabbcccabbccdabbcdbabbcdcabb"
+            "cddabbdacabbdadabbdbbabbdbcabbdbdabbdcbabbdccabbdcdabbddbabbddcabbdddabcabcabdabcacbabcaccabcacdabcadbabcadcabcaddabcbacabcbad"
+            "abcbbbabcbbcabcbbdabcbcbabcbccabcbcdabcbdbabcbdcabcbddabccacabccadabccbbabccbcabccbdabcccbabccccabcccdabccdbabccdcabccddabcdac"
+            "abcdadabcdbbabcdbcabcdbdabcdcbabcdccabcdcdabcddbabcddcabcdddabdabdacbabdaccabdacdabdadbabdadcabdaddabdbacabdbadabdbbbabdbbcabd"
+            "bbdabdbcbabdbccabdbcdabdbdbabdbdcabdbddabdcacabdcadabdcbbabdcbcabdcbdabdccbabdcccabdccdabdcdbabdcdcabdcddabddacabddadabddbbabd"
+            "dbcabddbdabddcbabddccabddcdabdddbabdddcabddddacacacadacacbbacacbcacacbdacaccbacacccacaccdacacdbacacdcacacddacadadacadbbacadbca"
+            "cadbdacadcbacadccacadcdacaddbacaddcacadddacbacbaccacbacdacbadbacbadcacbaddacbbadacbbbbacbbbcacbbbdacbbcbacbbccacbbcdacbbdbacbb"
+            "dcacbbddacbcadacbcbbacbcbcacbcbdacbccbacbcccacbccdacbcdbacbcdcacbcddacbdadacbdbbacbdbcacbdbdacbdcbacbdccacbdcdacbddbacbddcacbd"
+            "ddaccaccacdaccadbaccadcaccaddaccbadaccbbbaccbbcaccbbdaccbcbaccbccaccbcdaccbdbaccbdcaccbddacccadacccbbacccbcacccbdaccccbaccccca"
+            "ccccdacccdbacccdcacccddaccdadaccdbbaccdbcaccdbdaccdcbaccdccaccdcdaccddbaccddcaccdddacdacdadbacdadcacdaddacdbadacdbbbacdbbcacdb"
+            "bdacdbcbacdbccacdbcdacdbdbacdbdcacdbddacdcadacdcbbacdcbcacdcbdacdccbacdcccacdccdacdcdbacdcdcacdcddacddadacddbbacddbcacddbdacdd"
+            "cbacddccacddcdacdddbacdddcacddddadadadbbadadbcadadbdadadcbadadccadadcdadaddbadaddcadadddadbadbadcadbaddadbbbbadbbbcadbbbdadbbc"
+            "badbbccadbbcdadbbdbadbbdcadbbddadbcbbadbcbcadbcbdadbccbadbcccadbccdadbcdbadbcdcadbcddadbdbbadbdbcadbdbdadbdcbadbdccadbdcdadbdd"
+            "badbddcadbdddadcadcaddadcbbbadcbbcadcbbdadcbcbadcbccadcbcdadcbdbadcbdcadcbddadccbbadccbcadccbdadcccbadccccadcccdadccdbadccdcad"
+            "ccddadcdbbadcdbcadcdbdadcdcbadcdccadcdcdadcddbadcddcadcdddaddaddbbbaddbbcaddbbdaddbcbaddbccaddbcdaddbdbaddbdcaddbddaddcbbaddcb"
+            "caddcbdaddccbaddcccaddccdaddcdbaddcdcaddcddadddbbadddbcadddbdadddcbadddccadddcdaddddbaddddcadddddbbbbbbcbbbbbdbbbbccbbbbcdbbbb"
+            "dcbbbbddbbbcbcbbbcbdbbbcccbbbccdbbbcdcbbbcddbbbdbcbbbdbdbbbdccbbbdcdbbbddcbbbdddbbcbbcbbdbbcbccbbcbcdbbcbdcbbcbddbbccbcbbccbdb"
+            "bccccbbcccdbbccdcbbccddbbcdbcbbcdbdbbcdccbbcdcdbbcddcbbcdddbbdbbdbccbbdbcdbbdbdcbbdbddbbdcbcbbdcbdbbdcccbbdccdbbdcdcbbdcddbbdd"
+            "bcbbddbdbbddccbbddcdbbdddcbbddddbcbcbcbdbcbcccbcbccdbcbcdcbcbcddbcbdbdbcbdccbcbdcdbcbddcbcbdddbccbccbcdbccbdcbccbddbcccbdbcccc"
+            "cbccccdbcccdcbcccddbccdbdbccdccbccdcdbccddcbccdddbcdbcdbdcbcdbddbcdcbdbcdcccbcdccdbcdcdcbcdcddbcddbdbcddccbcddcdbcdddcbcddddbd"
+            "bdbdccbdbdcdbdbddcbdbdddbdcbdcbddbdccccbdcccdbdccdcbdccddbdcdccbdcdcdbdcddcbdcdddbddbddcccbddccdbddcdcbddcddbdddccbdddcdbddddc"
+            "bdddddccccccdccccddcccdcdcccdddccdccdcddccddcdccddddcdcdcdddcddc",
+            6);
+        REQUIRE(true == b);
+
+    }
 }
 
 TEST_CASE("Determine pattern ")
@@ -375,7 +420,7 @@ TEST_CASE("Determine pattern ")
             const auto expected8 = "bbbbababbaaaabaa";
             const auto expected9 = "bbbbabaaaababbaa";
             const auto expected10 = "bbbbaaaabaabbaba";
-            const auto expected11 = "aaaababaabbabbba";
+            const auto expected11 = "aaaababaabbabbbb";
             std::vector<std::string> expectedVec{expected1,
                                                  expected2,
                                                  expected3,
@@ -434,6 +479,219 @@ TEST_CASE("Window size less than 2 throws")
     REQUIRE_THROWS_WITH(determinePattern::determinePattern("abc", 0), "window size must not be < 2");
 }
 
+TEST_CASE("ab 5")
+{
+    const std::string inputString{"ab"};
+    const auto windowLength = 5;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+TEST_CASE("ab 6")
+{
+    const std::string inputString{"ab"};
+    const auto windowLength = 6;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+TEST_CASE("ab 7")
+{
+    const std::string inputString{"ab"};
+    const auto windowLength = 7;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+TEST_CASE("ab 8")
+{
+    const std::string inputString{"ab"};
+    const auto windowLength = 8;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+TEST_CASE("ab 9")
+{
+    const std::string inputString{"ab"};
+    const auto windowLength = 9;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+TEST_CASE("ab 10")
+{
+    const std::string inputString{"ab"};
+    const auto windowLength = 10;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+TEST_CASE("ab 11")
+{
+    const std::string inputString{"ab"};
+    const auto windowLength = 11;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+TEST_CASE("ab 3")
+{
+    const auto expected1 = "aaababbb";
+    const auto expected2 = "bbbabaaa";
+    const auto expected3 = "aaabbbab";
+    const auto expected4 = "aabbbaba";
+    const auto expected5 = "bbabaaab";
+    const auto expected6 = "bbbaaaba";
+    std::vector<std::string> expectedVec{expected1, expected2, expected3, expected4, expected5, expected6};
+    const auto result = determinePattern::determinePattern("ab", 3);
+    REQUIRE_THAT(expectedVec, Catch::Matchers::Contains(result));
+}
+
+TEST_CASE("abc 5")
+{
+    const std::string inputString{"abc"};
+    const auto windowLength = 5;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+TEST_CASE("abcd 4")
+{
+    const std::string inputString{"abcd"};
+    const auto windowLength = 4;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+TEST_CASE("abcd 3")
+{
+    const std::string inputString{"abcd"};
+    const auto windowLength = 3;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+TEST_CASE("abcde 2")
+{
+    const std::string inputString{"abcde"};
+    const auto windowLength = 2;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+TEST_CASE("abcde 3")
+{
+    const std::string inputString{"abcde"};
+    const auto windowLength = 3;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+//long cases
+
+TEST_CASE("abcdef 3")
+{
+    const std::string inputString{"abcdef"};
+    const auto windowLength = 3;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+TEST_CASE("abcdef 4")
+{
+    const std::string inputString{"abcdef"};
+    const auto windowLength = 4;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+TEST_CASE("abcd 5")
+{
+    const std::string inputString{"abcd"};
+    const auto windowLength = 5;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+TEST_CASE("abcde 4")
+{
+    const std::string inputString{"abcde"};
+    const auto windowLength = 4;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+TEST_CASE("abc 6")
+{
+    const std::string inputString{"abc"};
+    const auto windowLength = 6;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
+
+// took a looong time,
+TEST_CASE("long abcd 6")
+{
+    const std::string inputString{"abcd"};
+    const auto windowLength = 6;
+    const auto result = determinePattern::determinePattern(inputString, windowLength);
+    const auto [b, perms] = isRingUnique(result, windowLength);
+    REQUIRE(true == b);
+    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+    WARN(result);
+}
 } // namespace determinePattern
 
 //check for long sequences
