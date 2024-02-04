@@ -1,6 +1,6 @@
-option(DBG_PERFORM_CODE_INSPECTION "Enables code inspection is performed during build" OFF)
+option(PERFORM_CODE_INSPECTION "Enables code inspection is performed during build" OFF)
 
-if (NOT DBG_PERFORM_CODE_INSPECTION)
+if (NOT PERFORM_CODE_INSPECTION)
     message("Skipping code inspection")
 else ()
     message("Configuring files for code inspection")

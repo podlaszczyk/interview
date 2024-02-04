@@ -1,0 +1,15 @@
+
+docker build -t interview_image .
+docker run -it -v ${PWD}:/src interview_image
+cd /src
+
+conan install .. --build=missing
+cmake .. -G Ninja
+cmake --build . --target all
+cmake --build . --target RunAllTests
+
+cd ..
+mkdir buildCodeInspection && cd buildCodeInspection
+conan install .. --build=missing
+cmake .. -G Ninja -DPERFORM_CODE_INSPECTION=ON
+cmake --build . --target all
