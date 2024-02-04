@@ -9,3 +9,12 @@ include(cmake/UseClangTidy.cmake)
 add_subdirectory(task1)
 add_subdirectory(task2)
 
+set(TEST_REPORT_DIRECTORY ${CMAKE_BINARY_DIR}/test-reports)
+
+
+add_custom_target(RunAllTests
+        COMMAND ${CMAKE_COMMAND} --build . --target all
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${TEST_REPORT_DIRECTORY}
+        COMMAND ./task2/determinePatternTests  -r xml -d yes --order lex -o ${TEST_REPORT_DIRECTORY}/test_results.xml --reporter JUnit::out=${TEST_REPORT_DIRECTORY}/result-junit.xml
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)

@@ -8,3 +8,4 @@ add_executable(determinePatternTests
 target_link_libraries(determinePatternTests PUBLIC DeterminePattern)
 
 target_link_libraries(determinePatternTests PRIVATE Catch2::Catch2WithMain)
+
