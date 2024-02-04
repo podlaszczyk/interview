@@ -13,21 +13,20 @@ struct Directory
     std::string name;
     std::vector<Directory> children;
 
-    Directory(const std::string& name)
+    explicit Directory(const std::string& name)
         : name(name){};
 
-    Directory(const std::vector<std::string> tokens)
+    explicit Directory(const std::vector<std::string>& tokens)
     {
         if (tokens.size() == 1) {
             name = tokens[0];
             return;
         }
-        else {
-            name = tokens[0];
-            const auto tokenVec = std::vector<std::string>(tokens.begin() + 1, tokens.end());
-            Directory child = Directory(tokenVec);
-            children.push_back(child);
-        }
+
+        name = tokens[0];
+        const auto tokenVec = std::vector<std::string>(tokens.begin() + 1, tokens.end());
+        const Directory child = Directory(tokenVec);
+        children.push_back(child);
     }
 
     bool operator==(const Directory& obj2) const
@@ -36,13 +35,13 @@ struct Directory
     }
 };
 
-void printDirectory(Directory dir, int indent)
+void printDirectory(const Directory& dir, int indent)
 {
     std::cout << std::setw(indent) << " " << dir.name << "\n";
     indent += 4;
 
-    for (auto o : dir.children) {
-        printDirectory(o, indent);
+    for (const auto& child : dir.children) {
+        printDirectory(child, indent);
     }
 }
 
@@ -75,26 +74,32 @@ std::vector<Directory> mergeDirectories(const std::vector<Directory>& directorie
 int main()
 {
     const auto path = "inputDataExtended";
-    std::ifstream f(path);
-    if (!f) {
-        throw std::domain_error("Wrong data");
+    std::ifstream file(path);
+    try {
+        if (!file) {
+            throw std::domain_error("Wrong data");
+        }
     }
+    catch (const std::exception& exception) {
+        return -1;
+    }
+
     std::string line;
 
     std::vector<std::string> lines;
-    while (std::getline(f, line)) {
+    while (std::getline(file, line)) {
         lines.push_back(line);
     }
 
     std::vector<Directory> directories;
-    for (auto line : lines) {
+    for (const auto& line : lines) {
         std::vector<std::string> tokens;
-        for (const auto& token_range : line | std::views::split('.')) {
+        for (const auto& tokenRange : line | std::views::split('.')) {
             std::string token{};
-            std::ranges::copy(token_range, std::back_inserter(token));
+            std::ranges::copy(tokenRange, std::back_inserter(token));
             tokens.push_back(token);
         }
-        Directory dir(tokens);
+        const Directory dir(tokens);
         directories.push_back(dir);
     }
 

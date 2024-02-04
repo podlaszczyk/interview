@@ -4,24 +4,6 @@
 #include <stdexcept>
 #include <vector>
 
-std::unordered_set<std::string> determinePattern::generatePermutations(const std::string& text)
-{
-    std::unordered_set<std::string> permutations;
-    auto next = text;
-    auto previous = text;
-
-    permutations.insert(next);
-    do {
-        permutations.insert(next);
-    } while (std::next_permutation(next.begin(), next.end()));
-
-    do {
-        permutations.insert(previous);
-    } while (std::prev_permutation(previous.begin(), previous.end()));
-
-    return permutations;
-}
-
 std::set<std::string> determinePattern::generatePermutationsForWindow(const std::string& text, int windowLength)
 {
     const auto expectedStringLength = static_cast<size_t>(std::pow(text.size(), windowLength));
@@ -30,19 +12,15 @@ std::set<std::string> determinePattern::generatePermutationsForWindow(const std:
 
     std::vector<std::string> subtexts(text.size());
 
-    for(int i=0; i < text.size(); ++i)
-    {
+    for (int i = 0; i < text.size(); ++i) {
         subtexts[i].push_back(text[i]);
     }
 
-    while(subtexts.size() != expectedStringLength)
-    {
+    while (subtexts.size() != expectedStringLength) {
         std::vector<std::string> extendedSubtexts;
-        for(int i = 0;  i < subtexts.size(); ++i)
-        {
-            for(auto c : text)
-            {
-                auto newText = subtexts[i] + c;
+        for (const auto& subtext : subtexts) {
+            for (const auto& character : text) {
+                auto newText = subtext + character;
                 extendedSubtexts.push_back(newText);
             }
         }
@@ -50,7 +28,6 @@ std::set<std::string> determinePattern::generatePermutationsForWindow(const std:
     }
     permutations.insert(subtexts.begin(), subtexts.end());
     return permutations;
-
 }
 
 std::pair<bool, std::unordered_set<std::string>> determinePattern::isRingUnique(const std::string& ring, int frame)

@@ -9,22 +9,6 @@
 namespace determinePattern
 {
 
-TEST_CASE("Generate permutations")
-{
-    SECTION("baa")
-    {
-        std::unordered_set<std::string> baaPermutation = {"aba", "baa", "aab"};
-        const auto result = generatePermutations("baa");
-        REQUIRE(baaPermutation == result);
-    }
-    SECTION("abc")
-    {
-        std::unordered_set<std::string> abcPermutation = {"abc", "acb", "bac", "bca", "cab", "cba"};
-        const auto result = generatePermutations("abc");
-        REQUIRE(abcPermutation == result);
-    }
-}
-
 TEST_CASE("Generate permutations for window")
 {
     SECTION("window size 2")
@@ -70,7 +54,7 @@ TEST_CASE("Generate permutations for window")
                                                  "cbd", "cca", "ccb", "ccc", "ccd", "cda", "cdb", "cdc", "cdd", "daa", "dab", "dac", "dad",
                                                  "dba", "dbb", "dbc", "dbd", "dca", "dcb", "dcc", "dcd", "dda", "ddb", "ddc", "ddd"};
 
-            REQUIRE(result.size() == 4 * 4 * 4);
+            REQUIRE(result.size() == static_cast<size_t>(4 * 4 * 4));
             REQUIRE(abcPermutation == result);
         }
     }
@@ -112,6 +96,12 @@ TEST_CASE("Generate permutations for window")
             REQUIRE(abc4.size() == 81);
             REQUIRE(result == abc4);
         }
+    }
+    SECTION("window size 5")
+    {
+        const auto result = generatePermutationsForWindow("abc", 5);
+
+        REQUIRE(result.size() == static_cast<size_t>(3 * 3 * 3 * 3 * 3));
     }
 }
 
@@ -319,34 +309,31 @@ TEST_CASE("Determine pattern ")
     {
         SECTION("abc 2")
         {
-            GIVEN("list of possible solutions")
-            {
-                const auto expected1 = "aabacbbcc";
-                const auto expected2 = "ccaacbabb";
-                const auto expected3 = "aaccbcabb";
-                const auto expected4 = "aabcbbacc";
-                const auto expected5 = "aacbccabb";
-                const auto expected6 = "aabbacbcc";
-                const auto expected7 = "aaccabcbb";
-                const auto expected8 = "bbacaabcc";
-                const auto expected9 = "bbcaccbaa";
-                const auto expected10 = "ccaabacbb";
-                const auto expected11 = "bbaabcacc";
-                std::vector<std::string> expectedVec{expected1,
-                                                     expected2,
-                                                     expected3,
-                                                     expected4,
-                                                     expected5,
-                                                     expected6,
-                                                     expected7,
-                                                     expected8,
-                                                     expected9,
-                                                     expected10,
-                                                     expected11};
+            const auto expected1 = "aabacbbcc";
+            const auto expected2 = "ccaacbabb";
+            const auto expected3 = "aaccbcabb";
+            const auto expected4 = "aabcbbacc";
+            const auto expected5 = "aacbccabb";
+            const auto expected6 = "aabbacbcc";
+            const auto expected7 = "aaccabcbb";
+            const auto expected8 = "bbacaabcc";
+            const auto expected9 = "bbcaccbaa";
+            const auto expected10 = "ccaabacbb";
+            const auto expected11 = "bbaabcacc";
+            std::vector<std::string> expectedVec{expected1,
+                                                 expected2,
+                                                 expected3,
+                                                 expected4,
+                                                 expected5,
+                                                 expected6,
+                                                 expected7,
+                                                 expected8,
+                                                 expected9,
+                                                 expected10,
+                                                 expected11};
 
-                const auto result = determinePattern::determinePattern("abc", 2);
-                REQUIRE_THAT(expectedVec, Catch::Matchers::Contains(result));
-            }
+            const auto result = determinePattern::determinePattern("abc", 2);
+            REQUIRE_THAT(expectedVec, Catch::Matchers::Contains(result));
         }
     }
     SECTION("window 3")
@@ -362,6 +349,16 @@ TEST_CASE("Determine pattern ")
             std::vector<std::string> expectedVec{expected1, expected2, expected3, expected4, expected5, expected6};
             const auto result = determinePattern::determinePattern("ab", 3);
             REQUIRE_THAT(expectedVec, Catch::Matchers::Contains(result));
+        }
+        SECTION("abcd 3")
+        {
+            const std::string inputString{"abcd"};
+            const auto windowLength = 3;
+            const auto result = determinePattern::determinePattern(inputString, windowLength);
+            WARN(result);
+            const auto [b, perms] = isRingUnique(result, windowLength);
+            REQUIRE(true == b);
+            REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
         }
     }
     SECTION("window 4")
@@ -419,6 +416,16 @@ TEST_CASE("Determine pattern ")
             REQUIRE(result.size() == 81);
             WARN(result);
         }
+        SECTION(".xO 4")
+        {
+            const std::string inputString{".xO"};
+            const auto windowLength = 4;
+            const auto result = determinePattern::determinePattern(inputString, windowLength);
+            const auto [b, perms] = isRingUnique(result, windowLength);
+            REQUIRE(true == b);
+            REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
+            WARN(result);
+        }
     }
 }
 
@@ -427,25 +434,6 @@ TEST_CASE("Window size less than 2 throws")
     REQUIRE_THROWS_WITH(determinePattern::determinePattern("abc", 0), "window size must not be < 2");
 }
 
-TEST_CASE(".xO 4")
-{
-    const std::string inputString{".xO"};
-    const auto windowLength = 4;
-    const auto result = determinePattern::determinePattern(inputString, windowLength);
-    const auto [b, perms] = isRingUnique(result, windowLength);
-    REQUIRE(true == b);
-    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
-    WARN(result);
-}
-
-TEST_CASE(".xOa 4")
-{
-    const std::string inputString{"abcd"};
-    const auto windowLength = 3;
-    const auto result = determinePattern::determinePattern(inputString, windowLength);
-    WARN(result);
-    const auto [b, perms] = isRingUnique(result, windowLength);
-    REQUIRE(true == b);
-    REQUIRE(result.size() == std::pow(inputString.size(), windowLength));
-}
 } // namespace determinePattern
+
+//check for long sequences
