@@ -17,4 +17,8 @@ bool isResultMaximumLength(size_t stringLength, const std::string& result);
 std::string getNextStartingPermutation(const std::set<std::string>& nonModifiableAllPossiblePermutations, int repeat);
 bool hasPossiblePermutationAvailable(const std::set<std::string>& allPossiblePermutation,
                                      const std::set<std::string>::iterator& availablePermutation);
+std::string getStartingText(const std::string& text, int windowSize,
+                                              uint expectedStringLength,
+                                              const std::string& nextStartingPermutation);
+int resetRepeatCounter(const size_t& expectedStringLength, int repeat);
 } // namespace determinePattern

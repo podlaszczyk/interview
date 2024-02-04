@@ -344,7 +344,6 @@ TEST_CASE("Is ring unique")
             "bdddddccccccdccccddcccdcdcccdddccdccdcddccddcdccddddcdcdcdddcddc",
             6);
         REQUIRE(true == b);
-
     }
 }
 

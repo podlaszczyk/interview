@@ -75,19 +75,11 @@ std::string determinePattern::determinePattern(const std::string& text, int wind
     const auto nonModifiableAllPossiblePermutations = generatePermutationsForWindow(text, windowSize);
     auto allPossiblePermutation = nonModifiableAllPossiblePermutations;
 
-    const std::string start(windowSize, text[0]);
-    const std::string last(windowSize, text[text.size()-1]);
-
     std::string result;
     int repeat = 0;
     while (isResultMaximumLength(expectedStringLength, result)) {
         const auto nextStartingPermutation = getNextStartingPermutation(nonModifiableAllPossiblePermutations, repeat);
-        if (expectedStringLength > 3 * windowSize) {
-            result = last + start + nextStartingPermutation;
-        }
-        else {
-            result = start + nextStartingPermutation;
-        }
+        result = getStartingText(text, windowSize, expectedStringLength, nextStartingPermutation);
 
         allPossiblePermutation = nonModifiableAllPossiblePermutations;
         auto availablePermutation = allPossiblePermutation.begin();
@@ -111,44 +103,46 @@ std::string determinePattern::determinePattern(const std::string& text, int wind
                 }
             }
             else {
-                if (missingCharacters < windowSize) {
-                    // add last missing characters part of existing possible permutations
-                    for (const auto& perm : allPossiblePermutation) {
-                        const auto tempStr = result + std::string(perm, 0, missingCharacters);
-                        auto [boolean, perms] = isRingUnique(tempStr, windowSize);
-                        if (boolean) {
-                            result = tempStr;
-                            return result;
-                        }
+                // add last missing characters part of existing possible permutations
+                for (const auto& perm : allPossiblePermutation) {
+                    const auto tempStr = result + std::string(perm, 0, missingCharacters);
+                    auto [boolean, perms] = isRingUnique(tempStr, windowSize);
+                    if (boolean) {
+                        result = tempStr;
+                        return result;
                     }
-                    break;
                 }
-                else if (missingCharacters == windowSize) {
-                    for (const auto& perm : allPossiblePermutation) {
-                        const auto tempStr = result + std::string(perm, 0, missingCharacters);
-                        auto [boolean, perms] = isRingUnique(tempStr, windowSize);
-                        if (boolean) {
-                            result = tempStr;
-                            return result;
-                        }
-                    }
-                    break;
-                }
+                break;
             }
         }
-        if (result.size() == expectedStringLength) {
-            auto [boolean, perms] = isRingUnique(result, windowSize);
-            if (boolean) {
-                return result;
-            }
-            //            return result;
-        }
-        if (repeat == expectedStringLength - 1) {
-            repeat = 0;
-        }
+        repeat = resetRepeatCounter(expectedStringLength, repeat);
         repeat++;
     }
     return {};
+}
+
+int determinePattern::resetRepeatCounter(const size_t &expectedStringLength, int repeat)
+{
+    if (repeat == expectedStringLength - 1) {
+        repeat = 0;
+    }
+        return repeat;
+}
+
+std::string determinePattern::getStartingText(const std::string& text,
+                                              int windowSize,
+                                              uint expectedStringLength,
+                                              const std::string& nextStartingPermutation)
+{
+    const std::string start(windowSize, text[0]);
+    const std::string last(windowSize, text[text.size() - 1]);
+
+    if (expectedStringLength >   windowSize * 3) {
+        std::string result = last + start + nextStartingPermutation;
+        return result;
+    }
+    std::string result = start + nextStartingPermutation;
+    return result;
 }
 
 bool determinePattern::hasPossiblePermutationAvailable(const std::set<std::string>& allPossiblePermutation,
