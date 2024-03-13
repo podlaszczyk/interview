@@ -1,0 +1,88 @@
+@startuml
+
+
+
+Experience <-- Fortna
+Experience <-- Heidelberger_Druckmaschinen
+Experience <-- Quick_Turn_Studio_GmbH
+Experience <-- Spyrosoft_Solutions
+Experience <-- Systema_Infineon
+Experience <-- Nokia
+Experience <-- Acturis
+
+class Experience {
+
+}
+
+class Fortna {
+- C++14/17
+- Oracle DB
+- Python3
+- Docker
+- Conan
+- CMake
+- Git
+}
+
+class Heidelberger_Druckmaschinen {
+- Jenkins
+- Java 8
+- C++98/14
+- heidelberg make
+- Ruby
+- XRITE Drivers,
+- SVN
+- JIRA
+}
+
+class Quick_Turn_Studio_GmbH {
+- Qt
+- C++17
+- CMake
+- Google Test
+- Catch2
+- Git
+- Conan
+- Docker
+- Business German language
+}
+
+class Spyrosoft_Solutions {
+- C++14
+- GTest
+- ROS
+- Jenkins
+- Docker
+- Conan
+- Python
+- CMake
+- Gitlab CI
+- Linux
+- Automotive SPICE
+- ISO26262
+- Nordic NRF52
+- K8s
+}
+
+class Systema_Infineon {
+- C++98
+- aCC
+- Visual Studio
+- Adabas
+- German language
+}
+
+class Nokia {
+- C++14
+- SVN
+- ttcn-3
+- GTest
+}
+
+class Acturis {
+- C++14
+- Oracle SQL
+- SVN
+}
+
+@enduml
