@@ -1,6 +1,9 @@
 #include "DeterminePattern.h"
 
+#include <algorithm>
 #include <cmath>
+#include <iostream>
+#include <ranges>
 #include <stdexcept>
 #include <vector>
 
@@ -42,30 +45,39 @@ std::pair<bool, std::unordered_set<std::string>> determinePattern::isRingUnique(
     // simulate circular buffer
     auto ringExtendedWithFrame = ring + std::string(ring, 0, frame - 1);
 
-    for (size_t i = 0; i < ring.size(); ++i) {
-        const auto permutation = std::string(ringExtendedWithFrame, i, frame);
+    auto slides = ringExtendedWithFrame | std::views::slide(frame);
 
-        if (auto [p, success] = permutations.insert(permutation); !success) {
-            return {false, {}};
-        }
+    //    for debug purposes
+    //    auto print_subrange = [](std::ranges::viewable_range auto&& r) {
+    //        std::cout << '[';
+    //        for (int pos{}; auto elem : r)
+    //            std::cout << (pos++ ? " " : "") << elem;
+    //        std::cout << "] ";
+    //    };
+    //    std::ranges::for_each(slides, print_subrange);
+    //    std::cout << '\n';
+
+    bool allUnique = std::ranges::all_of(slides, [&](const auto& slide) {
+        return permutations.insert(std::string(slide.begin(), slide.end())).second;
+    });
+    if (allUnique) {
+        return {true, permutations};
     }
-
-    return {true, permutations};
+    return {false, {}};
 }
 
 std::pair<bool, std::unordered_set<std::string>> determinePattern::isStrUnique(const std::string& str, int frame)
 {
     std::unordered_set<std::string> permutations;
 
-    for (size_t i = 0; i < str.size() - frame + 1; ++i) {
-        const auto permutation = std::string(str, i, frame);
-
-        if (auto [p, success] = permutations.insert(permutation); !success) {
-            return {false, {}};
-        }
+    auto slides = str | std::views::slide(frame);
+    bool allUnique = std::ranges::all_of(slides, [&](const auto& slide) {
+        return permutations.insert(std::string(slide.begin(), slide.end())).second;
+    });
+    if (allUnique) {
+        return {true, permutations};
     }
-
-    return {true, permutations};
+    return {false, {}};
 }
 
 std::string determinePattern::determinePattern(const std::string& text, int windowSize)
@@ -121,12 +133,12 @@ std::string determinePattern::determinePattern(const std::string& text, int wind
     return {};
 }
 
-int determinePattern::resetRepeatCounter(const size_t &expectedStringLength, int repeat)
+int determinePattern::resetRepeatCounter(const size_t& expectedStringLength, int repeat)
 {
     if (repeat == expectedStringLength - 1) {
         repeat = 0;
     }
-        return repeat;
+    return repeat;
 }
 
 std::string determinePattern::getStartingText(const std::string& text,
@@ -137,7 +149,7 @@ std::string determinePattern::getStartingText(const std::string& text,
     const std::string start(windowSize, text[0]);
     const std::string last(windowSize, text[text.size() - 1]);
 
-    if (expectedStringLength >   windowSize * 3) {
+    if (expectedStringLength > windowSize * 3) {
         std::string result = last + start + nextStartingPermutation;
         return result;
     }

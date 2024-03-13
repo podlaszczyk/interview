@@ -42,3 +42,7 @@ cmake .. -G Ninja -DPERFORM_CODE_INSPECTION=ON
 ```
 cmake --build . --target all
 ```
+
+## usefull talks
+https://www.youtube.com/watch?v=uYFRnsMD9ks&t=1376s
+https://agilemanifesto.org/
